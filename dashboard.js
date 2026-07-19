@@ -85,33 +85,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Decode token to get username if possible
-        try {
-            const payload = JSON.parse(decodeURIComponent(escape(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))));
-            const username = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || payload.unique_name || payload.sub || 'Kẻ Khống Lửa';
-            const role = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || payload.role;
-            const usernameElem = document.getElementById('dropdown-username');
-            if (usernameElem) usernameElem.textContent = username;
+        if (token) {
+            try {
+                const payload = JSON.parse(decodeURIComponent(escape(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))));
+                const username = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || payload.unique_name || payload.sub || 'Kẻ Khống Lửa';
+                const role = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || payload.role;
+                const usernameElem = document.getElementById('dropdown-username');
+                if (usernameElem) usernameElem.textContent = username;
 
-            if (role === 'Admin') {
-                const dropdownMenu = document.querySelector('#user-dropdown-menu .py-1:nth-of-type(2)');
-                if (dropdownMenu && !document.getElementById('admin-link')) {
-                    dropdownMenu.insertAdjacentHTML('afterbegin', '<a id="admin-link" href="admin.html" class="block px-4 py-1.5 text-[#ff4500] font-bold hover:bg-[#0366d6] hover:text-white transition"><i class="fa-solid fa-gavel mr-1"></i> Tòa Án Tối Cao</a>');
+                if (role === 'Admin') {
+                    const dropdownMenu = document.querySelector('#user-dropdown-menu .py-1:nth-of-type(2)');
+                    if (dropdownMenu && !document.getElementById('admin-link')) {
+                        dropdownMenu.insertAdjacentHTML('afterbegin', '<a id="admin-link" href="admin.html" class="block px-4 py-1.5 text-[#ff4500] font-bold hover:bg-[#0366d6] hover:text-white transition"><i class="fa-solid fa-gavel mr-1"></i> Tòa Án Tối Cao</a>');
+                    }
                 }
+                
+                // Lấy AvatarUrl thật từ Backend
+                fetch('https://bonfirecode-api.onrender.com/api/Auth/me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }).then(res => res.json()).then(data => {
+                    if (data.avatarUrl) {
+                        const navAvatar = document.querySelector('#btn-avatar-dropdown img');
+                        if (navAvatar) {
+                            navAvatar.src = data.avatarUrl.startsWith('http') ? data.avatarUrl : `https://bonfirecode-api.onrender.com${data.avatarUrl}`;
+                        }
+                    }
+                }).catch(e => console.error(e));
+            } catch(e) { 
+                console.error("Lỗi parse token hoặc fetch avatar", e); 
+                localStorage.removeItem('bonfire_token');
             }
-            
-            // Lấy AvatarUrl thật từ Backend
-            fetch('https://bonfirecode-api.onrender.com/api/Auth/me', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            }).then(res => res.json()).then(data => {
-                if (data.avatarUrl) {
-                    const navAvatar = document.querySelector('#btn-avatar-dropdown img');
-                    if (navAvatar) navAvatar.src = `https://bonfirecode-api.onrender.com${data.avatarUrl}`;
-                }
-            }).catch(e => console.error(e));
-        } catch(e) { 
-            console.error("Lỗi parse token hoặc fetch avatar", e); 
-            localStorage.removeItem('bonfire_token');
-            window.location.reload();
         }
     const logoutBtn = document.getElementById('btn-logout');
     if (logoutBtn) {
