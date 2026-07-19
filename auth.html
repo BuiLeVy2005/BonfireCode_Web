@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác Thực - BonfireCode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at bottom, #1a0b2e 0%, #0d1117 100%);
+            color: #e5e5e5;
+            overflow: hidden;
+        }
+        
+        .ember {
+            position: absolute;
+            bottom: -20px;
+            background: radial-gradient(circle, #ff4500 0%, #ff8c00 50%, transparent 100%);
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: floatUp 8s infinite linear, sway 3s infinite ease-in-out alternate;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) scale(0.2); opacity: 0; }
+        }
+
+        @keyframes sway {
+            0% { margin-left: -20px; }
+            100% { margin-left: 20px; }
+        }
+
+        .fire-text {
+            background: linear-gradient(180deg, #d8b4fe 0%, #a855f7 50%, #ea580c 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 4px rgba(168,85,247,0.4));
+        }
+    </style>
+    <link rel="icon" type="image/jpeg" href="assets/images/1.JPG">
+</head>
+<body class="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <div class="z-10 w-full max-w-md bg-[#161b22]/60 backdrop-blur-md border border-purple-500/30 rounded-xl shadow-[0_0_40px_rgba(147,51,234,0.15)] p-10 transition-all">
+        <div class="text-center mb-8">
+            <a href="index.html" class="logo-text text-4xl font-bold fire-text tracking-wider inline-block mb-2 hover:scale-105 transition duration-300">BonfireCode</a>
+            <p class="text-neutral-500 text-sm italic">"Chỉ có ngọn lửa mới xua tan bóng tối..."</p>
+        </div>
+
+        <!-- Toggle tabs -->
+        <div class="flex border-b border-gray-800 mb-6">
+            <button id="tab-login" class="w-1/2 py-3 text-purple-500 font-medium border-b-2 border-purple-500">Đăng nhập</button>
+            <button id="tab-register" class="w-1/2 py-3 text-neutral-500 hover:text-neutral-300 font-medium border-b-2 border-transparent transition">Đăng ký</button>
+        </div>
+
+        <!-- Error Message Box -->
+        <div id="auth-error" class="hidden mb-4 bg-red-900/30 border border-red-500/50 text-red-400 p-3 rounded text-sm"></div>
+
+        <!-- Login Form -->
+        <form id="form-login" class="space-y-4">
+            <div>
+                <label class="block text-sm text-neutral-400 mb-1">Tài khoản (Username)</label>
+                <div class="relative">
+                    <svg class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <input type="text" id="login-username" required class="w-full bg-[#0d1117] border border-gray-700 text-white pl-10 pr-4 py-2 rounded focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition">
+                </div>
+            </div>
+            <div>
+                <div class="flex justify-between items-center mb-1">
+                    <label class="block text-sm text-neutral-400">Mật khẩu</label>
+                    <a href="#" id="link-forgot" class="text-xs text-blue-500 hover:text-blue-400">Quên mật khẩu?</a>
+                </div>
+                <div class="relative">
+                    <svg class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <input type="password" id="login-password" required class="w-full bg-[#0d1117] border border-gray-700 text-white pl-10 pr-4 py-2 rounded focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition">
+                </div>
+            </div>
+            <button type="submit" id="btn-login-submit" class="w-full mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white py-3 rounded-lg font-bold tracking-wider transition-all duration-300 shadow-[0_0_15px_rgba(147,51,234,0.4)] hover:shadow-[0_0_25px_rgba(147,51,234,0.6)] hover:-translate-y-0.5">Tiến Vào Trạm Nghỉ</button>
+        </form>
+
+        <!-- Register Form (Hidden by default) -->
+        <form id="form-register" class="space-y-4 hidden text-left">
+            <div>
+                <label class="block text-sm font-medium text-[#c9d1d9] mb-1">Email <span class="text-red-500">*</span></label>
+                <div class="relative">
+                    <svg class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <input type="email" id="reg-email" required class="w-full bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] pl-10 pr-3 py-1.5 rounded-md focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition shadow-sm">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-[#c9d1d9] mb-1">Mật khẩu <span class="text-red-500">*</span></label>
+                <div class="relative">
+                    <svg class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <input type="password" id="reg-password" required class="w-full bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] pl-10 pr-3 py-1.5 rounded-md focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition shadow-sm">
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Mật khẩu nên có ít nhất 8 ký tự bao gồm chữ và số.</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-[#c9d1d9] mb-1">Tài khoản (Username) <span class="text-red-500">*</span></label>
+                <div class="relative">
+                    <svg class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <input type="text" id="reg-username" required class="w-full bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] pl-10 pr-3 py-1.5 rounded-md focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition shadow-sm">
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Username chỉ chứa chữ cái, số hoặc dấu gạch ngang.</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-[#c9d1d9] mb-1">Quốc gia/Khu vực</label>
+                <select class="w-full bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] px-3 py-1.5 rounded-md focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition shadow-sm appearance-none">
+                    <option value="vn" selected>Vietnam</option>
+                    <option value="us">United States</option>
+                    <option value="jp">Japan</option>
+                    <option value="kr">South Korea</option>
+                </select>
+            </div>
+
+            <div class="flex items-start mt-4">
+                <input type="checkbox" id="chk-ai" class="mt-1 bg-[#0d1117] border-[#30363d] rounded text-purple-500 focus:ring-purple-500">
+                <label for="chk-ai" class="ml-2 text-sm text-[#c9d1d9]">Đăng ký BonfireCode AI Assistant (Miễn phí)</label>
+            </div>
+
+            <div class="flex items-start">
+                <input type="checkbox" id="chk-news" class="mt-1 bg-[#0d1117] border-[#30363d] rounded text-purple-500 focus:ring-purple-500">
+                <label for="chk-news" class="ml-2 text-sm text-[#c9d1d9]">Nhận thông báo cập nhật hệ thống qua email</label>
+            </div>
+
+            <button type="submit" id="btn-reg-submit" class="w-full mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white py-3 rounded-lg font-bold tracking-wider transition-all duration-300 shadow-[0_0_15px_rgba(147,51,234,0.4)] hover:shadow-[0_0_25px_rgba(147,51,234,0.6)] hover:-translate-y-0.5">
+                Tạo tài khoản &gt;
+            </button>
+
+            <p class="text-xs text-gray-500 mt-4 text-center">
+                Bằng việc tạo tài khoản, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của BonfireCode.
+            </p>
+        </form>
+
+        <!-- Forgot Password Form (Hidden by default) -->
+        <div id="form-forgot" class="hidden">
+            <h2 class="text-xl font-bold text-white mb-4 text-center">Khôi phục mật khẩu</h2>
+            
+            <!-- Step 1: Request OTP -->
+            <form id="form-forgot-step1" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#c9d1d9] mb-1">Email của bạn</label>
+                    <input type="email" id="forgot-email" required class="w-full bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] px-3 py-1.5 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition shadow-sm">
+                </div>
+                <button type="submit" id="btn-forgot-step1" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 px-4 rounded-md font-bold transition duration-300 shadow-sm">
+                    Nhận mã OTP
+                </button>
+            </form>
+
+            <!-- Step 2: Reset Password -->
+            <form id="form-forgot-step2" class="space-y-4 hidden mt-4 border-t border-[#30363d] pt-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#c9d1d9] mb-1">Mã OTP (6 số)</label>
+                    <input type="text" id="forgot-otp" required maxlength="6" class="w-full bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] px-3 py-1.5 rounded-md focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition shadow-sm text-center tracking-widest font-mono">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#c9d1d9] mb-1">Mật khẩu mới</label>
+                    <input type="password" id="forgot-new-password" required class="w-full bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] px-3 py-1.5 rounded-md focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition shadow-sm">
+                </div>
+                <button type="submit" id="btn-forgot-step2" class="w-full bg-[#238636] hover:bg-[#2ea043] text-white py-2 px-4 rounded-md font-bold transition duration-300 shadow-sm">
+                    Xác nhận đổi mật khẩu
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <button id="btn-back-to-login" class="text-sm text-blue-500 hover:text-blue-400">&larr; Quay lại Đăng nhập</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate Embers
+        const body = document.body;
+        for (let i = 0; i < 20; i++) {
+            const ember = document.createElement('div');
+            ember.className = 'ember';
+            
+            // Random properties
+            const size = Math.random() * 6 + 2; // 2px to 8px
+            const left = Math.random() * 100; // 0% to 100%
+            const duration = Math.random() * 5 + 5; // 5s to 10s
+            const delay = Math.random() * 5; // 0s to 5s
+            const swayDuration = Math.random() * 2 + 2; // 2s to 4s
+            
+            ember.style.width = `${size}px`;
+            ember.style.height = `${size}px`;
+            ember.style.left = `${left}vw`;
+            ember.style.animation = `floatUp ${duration}s infinite linear ${delay}s, sway ${swayDuration}s infinite ease-in-out alternate ${delay}s`;
+            
+            body.appendChild(ember);
+        }
+    </script>
+    <script src="auth.js"></script>
+</body>
+</html>
+

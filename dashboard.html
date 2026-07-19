@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonfireCode - Kẻ Không Lửa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #e5e5e5;
+        }
+        
+        .fire-text {
+            background: linear-gradient(180deg, #c084fc 0%, #9333ea 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+    <link rel="icon" type="image/jpeg" href="assets/images/1.JPG">
+</head>
+<body class="min-h-screen flex flex-col">
+        <!-- Header -->
+    <header class="bg-[#010409] border-b border-[#30363d] sticky top-0 z-50">
+        <div class="flex justify-between items-center px-6 py-3">
+            <div class="flex items-center gap-3">
+                <a href="dashboard.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <img src="assets/images/1.JPG" alt="Logo" class="w-8 h-8 rounded-full object-cover border border-gray-600">
+                    <span class="logo-text text-xl font-semibold text-gray-100 tracking-wider">BonfireCode</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-4" id="auth-buttons">
+                <a href="auth.html" class="text-sm font-medium text-gray-300 hover:text-white transition duration-300">Đăng nhập</a>
+                <a href="auth.html" class="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">
+                    Đăng ký
+                </a>
+            </div>
+            <div class="flex items-center gap-4 hidden" id="user-buttons">
+                <a href="upload.html" class="flex items-center gap-1 bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Upload
+                </a>
+                <div class="relative">
+                    <button id="btn-avatar-dropdown" class="flex items-center justify-center rounded-full border border-gray-700 hover:border-gray-400 transition focus:outline-none">
+                        <img src="https://placehold.co/100x100/161b22/8b949e?text=U" alt="User" class="w-8 h-8 rounded-full">
+                    </button>
+                    
+                    <!-- Dropdown Menu -->
+                    <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-[#161b22] border border-[#30363d] rounded-md shadow-[0_8px_24px_rgba(0,0,0,0.5)] py-1 z-50 text-sm">
+                        <div class="px-4 py-2 border-b border-[#30363d]">
+                            <p class="font-semibold text-gray-200 truncate" id="dropdown-username">BuiLeVy2005</p>
+                        </div>
+                        
+                        <div class="py-1">
+                            <a href="#" class="flex items-center px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">
+                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Set status
+                            </a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <a href="profile.html" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Profile</a>
+                            <a href="profile.html?tab=my-projects" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Repositories</a>
+                            <a href="profile.html?tab=liked" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Stars</a>
+                            <a href="dashboard.html" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Dashboard</a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <a href="profile.html?action=edit" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Settings</a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <button id="btn-logout" class="w-full text-left block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                Sign out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Sidebar Filters (3/12) -->
+        <aside class="col-span-1 lg:col-span-3 space-y-6">
+            <div>
+                <ul class="space-y-1" id="categoryFilterList">
+                    <li>
+                        <button data-cat="" class="w-full text-left px-3 py-2 text-[#c9d1d9] bg-[#161b22] border border-[#30363d] rounded-md font-medium text-sm hover:bg-[#30363d] transition">
+                            🔥 Tất cả Lãnh địa
+                        </button>
+                    </li>
+                    <!-- Dynamic categories will be inserted here -->
+                </ul>
+                <select id="categoryFilter" class="hidden">
+                    <option value=""></option>
+                </select>
+            </div>
+            
+            <div class="border-t border-[#30363d] pt-4">
+                <h3 class="text-sm font-semibold text-[#8b949e] mb-3">Tài nguyên</h3>
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#" class="block px-3 py-1.5 text-[#8b949e] hover:text-blue-400">Hướng dẫn sử dụng</a></li>
+                    <li><a href="#" class="block px-3 py-1.5 text-[#8b949e] hover:text-blue-400">API Documentation</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Middle Column: Feed & Search (6/12) -->
+        <section class="col-span-1 lg:col-span-6">
+            <!-- Search Bar -->
+            <div class="mb-6 bg-[#0d1117] border border-[#30363d] rounded-md p-1.5 flex items-center focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition shadow-sm">
+                <svg class="text-[#8b949e] ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 111.06-1.06l3.04 3.04a.75.75 0 11-1.06 1.06l-3.04-3.04z"></path></svg>
+                <input type="text" id="searchInput" placeholder="Ask anything... (Tìm kiếm dự án)" 
+                    class="w-full bg-transparent border-none text-sm text-[#c9d1d9] px-3 py-1.5 focus:outline-none placeholder-[#8b949e]">
+                <button id="searchBtn" class="bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#c9d1d9] px-3 py-1 text-xs font-medium rounded-md transition shadow-sm">
+                    Tìm
+                </button>
+            </div>
+            
+            <div class="flex justify-between items-end border-b border-[#30363d] pb-2 mb-4">
+                <h2 class="text-xl font-semibold text-white">Bảng Tin (Feed)</h2>
+            </div>
+            
+            <div class="flex items-center space-x-2 mb-4 border-b border-[#30363d] pb-2">
+                <span class="text-sm text-[#8b949e] mr-2 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg> 
+                    Sắp xếp:
+                </span>
+                <button id="btn-sort-newest" class="sort-btn px-3 py-1 text-sm rounded-md bg-[#1f242c] text-purple-400 font-semibold border border-[#30363d] transition" data-sort="newest">🔥 Mới nhất</button>
+                <button id="btn-sort-oldest" class="sort-btn px-3 py-1 text-sm rounded-md text-[#8b949e] hover:text-gray-200 hover:bg-[#161b22] border border-transparent transition" data-sort="oldest">Cũ nhất</button>
+                <button id="btn-sort-rating" class="sort-btn px-3 py-1 text-sm rounded-md text-[#8b949e] hover:text-gray-200 hover:bg-[#161b22] border border-transparent transition" data-sort="rating">⭐ Đánh giá cao</button>
+            </div>
+
+            <!-- Project List -->
+            <div id="project-grid" class="flex flex-col gap-4">
+                <!-- Loading State -->
+                <div class="w-full text-center py-20 text-[#8b949e] bg-[#161b22] border border-[#30363d] rounded-md">
+                    <svg class="animate-spin h-6 w-6 mx-auto mb-3 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <p class="text-sm">Đang tải dữ liệu...</p>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination-container" class="mt-6 flex justify-center items-center space-x-2 hidden">
+                <button id="btn-prev-page" class="px-3 py-1 bg-[#161b22] border border-[#30363d] text-gray-400 rounded hover:bg-[#21262d] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                </button>
+                <div id="pagination-numbers" class="flex space-x-1">
+                    <!-- Page numbers will be rendered here -->
+                </div>
+                <button id="btn-next-page" class="px-3 py-1 bg-[#161b22] border border-[#30363d] text-gray-400 rounded hover:bg-[#21262d] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Right Column: Sấm Truyền / Tin tức (3/12) -->
+        <aside class="col-span-1 lg:col-span-3 space-y-6">
+            <!-- Event Banner -->
+            <div class="bg-[#161b22] border border-[#30363d] rounded-lg overflow-hidden relative group cursor-pointer shadow-sm">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-900/40 to-[#161b22] z-0"></div>
+                <div class="p-5 relative z-10">
+                    <h3 class="text-white font-bold mb-1 text-base">Thử thách Đồ án 2026</h3>
+                    <p class="text-[#8b949e] text-xs mb-4">Nơi các Kẻ Không Lửa hội tụ và tranh tài lập trình đỉnh cao.</p>
+                    <button class="w-full bg-[#21262d] group-hover:bg-[#30363d] border border-[#30363d] text-[#c9d1d9] py-1.5 rounded-md text-xs font-semibold transition">
+                        Tham gia ngay
+                    </button>
+                </div>
+            </div>
+
+            <!-- Latest Changelog -->
+            <div class="bg-[#161b22] border border-[#30363d] rounded-lg p-5 shadow-sm">
+                <h3 class="text-sm font-semibold text-white mb-3 border-b border-[#30363d] pb-2">Tin tức & Cập nhật</h3>
+                <ul class="space-y-4">
+                    <li class="relative pl-4 border-l-2 border-purple-500">
+                        <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-purple-500"></div>
+                        <p class="text-xs text-[#8b949e] font-medium mb-0.5">14/07/2026</p>
+                        <p class="text-sm text-[#c9d1d9]">Bổ sung tính năng Quên Mật Khẩu với OTP an toàn.</p>
+                    </li>
+                    <li class="relative pl-4 border-l-2 border-blue-500">
+                        <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-blue-500"></div>
+                        <p class="text-xs text-[#8b949e] font-medium mb-0.5">13/07/2026</p>
+                        <p class="text-sm text-[#c9d1d9]">Ra mắt Giao diện Landing Page chuẩn quốc tế.</p>
+                    </li>
+                    <li class="relative pl-4 border-l-2 border-green-500">
+                        <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-green-500"></div>
+                        <p class="text-xs text-[#8b949e] font-medium mb-0.5">12/07/2026</p>
+                        <p class="text-sm text-[#c9d1d9]">Hệ thống Bình luận và Đánh giá (Rating) chính thức hoạt động.</p>
+                    </li>
+                </ul>
+                <a href="#" class="block text-xs text-blue-400 hover:underline mt-4 text-center">Xem toàn bộ lịch sử</a>
+            </div>
+        </aside>
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0d1117] border-t border-gray-800 py-8 text-center text-neutral-500 text-sm">
+        <p>&copy; 2026 BonfireCode. Dự án Niên Luận - Võ Chí Hải.</p>
+        <p class="mt-2 text-xs italic">"Bóng tối bao trùm, nhưng source code sẽ soi sáng con đường."</p>
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
+

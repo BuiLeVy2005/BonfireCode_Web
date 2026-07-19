@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết Bảo Vật - BonfireCode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #e5e5e5; }
+        
+        .fire-text { background: linear-gradient(180deg, #c084fc 0%, #9333ea 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* GitHub specific styles */
+        .gh-border { border-color: #30363d; }
+        .gh-bg-secondary { background-color: #161b22; }
+        .gh-bg-tertiary { background-color: #21262d; }
+        .gh-hover:hover { background-color: #30363d; }
+        
+        /* Layout overrides */
+        #detail-content { display: block !important; }
+        #detail-content.hidden { display: none !important; }
+    </style>
+    <link rel="icon" type="image/jpeg" href="assets/images/1.JPG">
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-[#010409] border-b gh-border sticky top-0 z-50">
+        <div class="flex justify-between items-center px-6 py-3">
+            <div class="flex items-center gap-3">
+                <a href="dashboard.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <img src="assets/images/1.JPG" alt="Logo" class="w-8 h-8 rounded-full object-cover border border-gray-600">
+                    <span class="logo-text text-xl font-semibold text-gray-100 tracking-wider">BonfireCode</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-4" id="auth-buttons">
+                <a href="auth.html" class="text-sm font-medium text-gray-300 hover:text-white transition duration-300">Đăng nhập</a>
+                <a href="auth.html" class="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">
+                    Đăng ký
+                </a>
+            </div>
+            <div class="flex items-center gap-4 hidden" id="user-buttons">
+                <a href="upload.html" class="flex items-center gap-1 border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Upload
+                </a>
+                <div class="relative">
+                    <button id="btn-avatar-dropdown" class="flex items-center justify-center rounded-full border border-gray-700 hover:border-gray-400 transition focus:outline-none">
+                        <img src="https://placehold.co/100x100/161b22/8b949e?text=U" alt="User" class="w-8 h-8 rounded-full">
+                    </button>
+                    
+                    <!-- Dropdown Menu -->
+                    <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-[#161b22] border border-[#30363d] rounded-md shadow-[0_8px_24px_rgba(0,0,0,0.5)] py-1 z-50 text-sm">
+                        <div class="px-4 py-2 border-b border-[#30363d]">
+                            <p class="font-semibold text-gray-200 truncate" id="dropdown-username">BuiLeVy2005</p>
+                        </div>
+                        
+                        <div class="py-1">
+                            <a href="#" class="flex items-center px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">
+                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Set status
+                            </a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <a href="profile.html" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Profile</a>
+                            <a href="profile.html?tab=my-projects" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Repositories</a>
+                            <a href="profile.html?tab=liked" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Stars</a>
+                            <a href="dashboard.html" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Dashboard</a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <a href="profile.html?action=edit" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Settings</a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <button id="btn-logout" class="w-full text-left block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                Sign out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Loading -->
+    <div id="loading" class="text-center py-20 text-neutral-500">
+        <svg class="animate-spin h-8 w-8 mx-auto mb-4 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p>Đang đọc cổ ngữ...</p>
+    </div>
+
+    <!-- Main Content Container -->
+    <main id="detail-content" class="hidden flex-grow w-full max-w-7xl mx-auto px-4 py-6">
+        
+        <!-- Repo Header Area -->
+        <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between border-b gh-border pb-6 gap-4">
+            <!-- Left: Author / Repo Name -->
+            <div class="flex items-center gap-2 text-2xl font-semibold">
+                <svg class="w-6 h-6 text-[#8b949e] hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <a href="#" id="dt-author" class="text-blue-400 hover:underline">Author</a>
+                <span class="text-[#8b949e]">/</span>
+                <a href="#" id="dt-title" class="text-blue-400 hover:underline font-bold">Project_Title</a>
+                <span class="border border-[#30363d] text-[#8b949e] text-xs px-2 py-0.5 rounded-full ml-2 font-normal">Public</span>
+            </div>
+
+            <!-- Right: Action Buttons -->
+            <div class="flex items-center gap-2 text-sm">
+                <button class="flex items-center border gh-border gh-bg-tertiary gh-hover rounded-md px-3 py-1 font-medium transition">
+                    <svg class="w-4 h-4 mr-1 text-[#8b949e]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    Watch <span class="bg-[#040d21] text-xs px-2 py-0.5 rounded-full ml-1 border gh-border">12</span>
+                </button>
+                <button class="flex items-center border gh-border gh-bg-tertiary gh-hover rounded-md px-3 py-1 font-medium transition">
+                    <svg class="w-4 h-4 mr-1 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <span id="dt-rating-avg" class="mr-1">0.0</span>
+                    <span id="dt-rating-count" class="bg-[#040d21] text-[#8b949e] text-xs px-2 py-0.5 rounded-full ml-1 border gh-border">0</span>
+                </button>
+                <a id="btn-download" href="#" target="_blank" class="flex items-center border gh-border bg-[#238636] hover:bg-[#2ea043] rounded-md px-3 py-1 font-medium text-white transition shadow-sm">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Code
+                </a>
+            </div>
+        </div>
+
+        <!-- Layout Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Column (Files & README) -->
+            <div class="lg:col-span-9 space-y-6">
+                
+                <!-- Mock File Explorer -->
+                <div class="border gh-border rounded-md overflow-hidden">
+                    <div class="gh-bg-secondary px-4 py-3 flex justify-between items-center border-b gh-border">
+                        <div class="flex items-center gap-2">
+                            <img id="dt-author-avatar" src="https://placehold.co/100x100/161b22/8b949e?text=A" alt="Avatar" class="w-6 h-6 rounded-full border border-gray-600">
+                            <span class="text-sm font-semibold text-gray-200">Author</span>
+                            <span class="text-sm text-[#8b949e]">đã tải lên bản cập nhật mới nhất</span>
+                        </div>
+                        <div class="text-sm text-[#8b949e]" id="dt-date">Date</div>
+                    </div>
+                    
+                    <!-- File Rows -->
+                    <div class="bg-[#0d1117] flex flex-col text-sm">
+                        <div class="flex items-center justify-between px-4 py-2 border-b gh-border hover:bg-[#161b22] transition">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path></svg>
+                                <a href="#" class="text-gray-200 hover:text-blue-400">src</a>
+                            </div>
+                            <div class="text-[#8b949e] truncate w-1/2">Init project structure</div>
+                            <div class="text-[#8b949e] hidden md:block">2 hours ago</div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between px-4 py-2 border-b gh-border hover:bg-[#161b22] transition">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-4 h-4 text-[#8b949e]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                <a href="#" class="text-gray-200 hover:text-blue-400">README.md</a>
+                            </div>
+                            <div class="text-[#8b949e] truncate w-1/2">Update documentation</div>
+                            <div class="text-[#8b949e] hidden md:block">yesterday</div>
+                        </div>
+
+                        <div class="flex items-center justify-between px-4 py-2 hover:bg-[#161b22] transition">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path></svg>
+                                <a href="#" class="text-gray-200 hover:text-blue-400 font-medium">source_code.zip</a>
+                            </div>
+                            <div class="text-[#8b949e] truncate w-1/2">Source code archive</div>
+                            <div class="text-[#8b949e] hidden md:block">today</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- README Section -->
+                <div class="border gh-border rounded-md overflow-hidden relative">
+                    <div class="gh-bg-secondary px-4 py-3 flex items-center gap-2 border-b gh-border sticky top-0 z-10">
+                        <svg class="w-4 h-4 text-[#8b949e]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                        <span class="font-semibold text-sm">README.md</span>
+                    </div>
+                    
+                    <div class="p-8 bg-[#0d1117] min-h-[300px]">
+                        <h2 class="text-3xl font-bold border-b border-[#30363d] pb-2 mb-4">Project Description</h2>
+                        <div class="prose prose-invert max-w-none text-gray-300">
+                            <p id="dt-desc" class="leading-relaxed whitespace-pre-line"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rate & Comment Area -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+                    <!-- Rating Form -->
+                    <div class="md:col-span-1 border gh-border rounded-md p-5 bg-[#0d1117] h-fit">
+                        <h3 class="text-lg font-bold mb-3 border-b gh-border pb-2 text-gray-200">Đánh Giá Dự Án</h3>
+                        <div id="rating-auth-warning" class="text-sm text-yellow-500 mb-4 hidden border border-yellow-700 bg-yellow-900/20 p-2 rounded">
+                            Vui lòng đăng nhập để đánh giá.
+                        </div>
+                        <form id="form-rating" class="space-y-4">
+                            <div>
+                                <label class="block text-sm text-neutral-400 mb-2">Số sao (1-5)</label>
+                                <div class="flex items-center space-x-2">
+                                    <input type="range" id="star-value" min="1" max="5" value="5" class="w-full accent-blue-500">
+                                    <span id="star-display" class="font-bold text-yellow-500 text-lg">5★</span>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full gh-bg-tertiary gh-hover text-gray-200 py-1.5 rounded font-medium border gh-border transition shadow-sm text-sm">
+                                Gửi Đánh Giá
+                            </button>
+                        </form>
+                        <div id="rating-msg" class="mt-2 text-sm text-center hidden"></div>
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="md:col-span-2 border gh-border rounded-md p-5 bg-[#0d1117]">
+                        <h3 class="text-lg font-bold mb-3 border-b gh-border pb-2 text-gray-200">Bình Luận & Thảo Luận</h3>
+                        <div id="comment-auth-warning" class="text-sm text-yellow-500 mb-4 hidden border border-yellow-700 bg-yellow-900/20 p-2 rounded">
+                            Vui lòng đăng nhập để bình luận.
+                        </div>
+                        
+                        <form id="form-comment" class="mb-6 border gh-border rounded-md overflow-hidden focus-within:border-blue-500 transition">
+                            <div class="gh-bg-secondary px-3 py-2 border-b gh-border text-xs text-[#8b949e]">Write</div>
+                            <textarea id="comment-content" rows="3" required placeholder="Để lại bình luận..." class="w-full bg-[#0d1117] text-gray-200 px-3 py-2 focus:outline-none text-sm"></textarea>
+                            <div class="gh-bg-secondary px-3 py-2 border-t gh-border flex justify-end">
+                                <button type="submit" class="bg-[#238636] hover:bg-[#2ea043] text-white px-3 py-1 rounded text-sm font-medium transition shadow-sm">
+                                    Comment
+                                </button>
+                            </div>
+                        </form>
+                        <div id="comment-msg" class="mb-4 text-sm text-center hidden"></div>
+
+                        <div id="comments-list" class="space-y-4">
+                            <!-- Comments injected via JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column (Sidebar) -->
+            <div class="lg:col-span-3 space-y-6">
+                <!-- About -->
+                <div class="border-b gh-border pb-6">
+                    <h3 class="font-bold text-gray-200 mb-3">About</h3>
+                    <img id="dt-image" src="" alt="Thumbnail" class="w-full rounded-md border gh-border mb-4 object-cover h-40">
+                    <p class="text-sm text-[#8b949e] mb-4">Dự án mã nguồn mở phát triển trên nền tảng BonfireCode. Xem chi tiết thông tin và code ở cột bên trái.</p>
+                    
+                    <h3 class="font-bold text-gray-200 mb-3">Lãnh địa (Tags)</h3>
+                    <div id="dt-category" class="flex flex-wrap gap-2 text-sm text-[#8b949e]">
+                        <!-- Dynamic Tags rendered via JS -->
+                        <span class="bg-blue-900/30 text-blue-400 font-medium px-3 py-1 rounded-full text-xs border border-blue-800/30">Lãnh địa</span>
+                    </div>
+                </div>
+
+                <!-- Contributors -->
+                <div class="border-b gh-border pb-6">
+                    <h3 class="font-bold text-gray-200 mb-3 flex items-center justify-between">
+                        Contributors 
+                        <span class="bg-[#040d21] text-[#8b949e] text-xs px-2 py-0.5 rounded-full border gh-border">1</span>
+                    </h3>
+                    <div class="flex items-center gap-2 mb-2">
+                        <img id="dt-contributor-avatar" src="https://placehold.co/100x100/161b22/8b949e?text=U" class="w-8 h-8 rounded-full border border-gray-700">
+                        <span id="dt-contributor-name" class="text-sm text-blue-400 hover:underline cursor-pointer">Main Author</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 border-t gh-border pt-8 pb-12">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-xs text-[#8b949e]">
+            <div class="flex items-center gap-2 mb-4 md:mb-0">
+                <img src="assets/images/1.JPG" alt="Logo" class="w-6 h-6 rounded-full grayscale opacity-50">
+                <span>&copy; 2026 BonfireCode, Inc. Đồ án Niên Luận.</span>
+            </div>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-blue-400 transition">Terms</a>
+                <a href="#" class="hover:text-blue-400 transition">Privacy</a>
+                <a href="#" class="hover:text-blue-400 transition">Status</a>
+                <a href="#" class="hover:text-blue-400 transition">Docs</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mini Profile Popup -->
+    <div id="mini-profile-popup" class="absolute z-50 w-72 bg-[#161b22] border border-gray-700 rounded-lg shadow-2xl opacity-0 pointer-events-none transition-opacity duration-300 overflow-hidden text-left" style="display: none;">
+        <div class="relative h-20 bg-gray-700">
+            <img id="popup-cover" src="https://placehold.co/600x200/222/ea580c?text=Cover" alt="Cover" class="w-full h-full object-cover">
+        </div>
+        <div class="px-4 pb-4 relative mt-[-24px]">
+            <div class="flex justify-between items-end mb-2">
+                <img id="popup-avatar" src="https://placehold.co/100x100/161b22/8b949e?text=U" alt="Avatar" class="w-16 h-16 rounded-full border-4 border-[#161b22] object-cover bg-[#161b22]">
+                <button id="btn-popup-follow" class="bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold py-1 px-4 rounded transition">Theo dõi</button>
+            </div>
+            <h4 id="popup-fullname" class="text-white font-bold text-lg truncate">FullName</h4>
+            <a id="popup-username-link" href="#" class="text-gray-400 text-sm hover:text-blue-400 truncate block mb-2">@username</a>
+            <p id="popup-bio" class="text-sm text-gray-300 mb-3 line-clamp-2">Bio goes here...</p>
+            <div class="flex items-center text-sm text-gray-400 gap-4">
+                <div class="hover:text-blue-400 cursor-pointer">
+                    <span id="popup-followers" class="font-bold text-white">0</span> Người theo dõi
+                </div>
+                <div class="hover:text-blue-400 cursor-pointer">
+                    <span id="popup-following" class="font-bold text-white">0</span> Đang theo dõi
+                </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-gray-700">
+                <a id="popup-view-profile" href="#" class="block text-center w-full py-1.5 bg-[#21262d] hover:bg-[#30363d] text-gray-300 hover:text-white rounded text-sm font-semibold transition">Xem toàn bộ hồ sơ</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="detail.js"></script>
+</body>
+</html>

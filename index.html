@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonfireCode  Nơi kiến tạo thế giới mới</title>
+    <script>
+        // Smart Routing
+        if (localStorage.getItem('bonfire_token')) {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: #0d1117; 
+            color: #c9d1d9;
+            overflow-x: hidden;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to bottom right, #fff, #8b949e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-gh-header { background-color: rgba(1, 4, 9, 0.8); }
+        .border-gh { border-color: #30363d; }
+        .text-gh-muted { color: #8b949e; }
+        
+        .glow-blob {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%);
+            border-radius: 50%;
+            top: -150px;
+            right: -150px;
+            z-index: -1;
+            filter: blur(80px);
+            animation: pulse 8s infinite alternate;
+        }
+
+        .git-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #30363d 15%, #30363d 85%, transparent);
+            z-index: 0;
+        }
+
+        .glow-dot {
+            box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.2), 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        .code-window {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+    </style>
+    <link rel="icon" type="image/jpeg" href="assets/images/1.JPG">
+</head>
+<body class="relative min-h-screen flex flex-col">
+
+        <!-- Header -->
+    <header class="bg-[#010409] border-b border-[#30363d] sticky top-0 z-50">
+        <div class="flex justify-between items-center px-6 py-3">
+            <div class="flex items-center gap-3">
+                <a href="dashboard.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <img src="assets/images/1.JPG" alt="Logo" class="w-8 h-8 rounded-full object-cover border border-gray-600">
+                    <span class="logo-text text-xl font-semibold text-gray-100 tracking-wider">BonfireCode</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-4" id="auth-buttons">
+                <a href="auth.html" class="text-sm font-medium text-gray-300 hover:text-white transition duration-300">Đăng nhập</a>
+                <a href="auth.html" class="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">
+                    Đăng ký
+                </a>
+            </div>
+            <div class="flex items-center gap-4 hidden" id="user-buttons">
+                <a href="upload.html" class="flex items-center gap-1 bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Upload
+                </a>
+                <div class="relative">
+                    <button id="btn-avatar-dropdown" class="flex items-center justify-center rounded-full border border-gray-700 hover:border-gray-400 transition focus:outline-none">
+                        <img src="https://placehold.co/100x100/161b22/8b949e?text=U" alt="User" class="w-8 h-8 rounded-full">
+                    </button>
+                    
+                    <!-- Dropdown Menu -->
+                    <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-[#161b22] border border-[#30363d] rounded-md shadow-[0_8px_24px_rgba(0,0,0,0.5)] py-1 z-50 text-sm">
+                        <div class="px-4 py-2 border-b border-[#30363d]">
+                            <p class="font-semibold text-gray-200 truncate" id="dropdown-username">BuiLeVy2005</p>
+                        </div>
+                        
+                        <div class="py-1">
+                            <a href="#" class="flex items-center px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">
+                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Set status
+                            </a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <a href="profile.html" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Profile</a>
+                            <a href="profile.html?tab=my-projects" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Repositories</a>
+                            <a href="profile.html?tab=liked" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Stars</a>
+                            <a href="dashboard.html" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Dashboard</a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <a href="profile.html?action=edit" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Settings</a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <button id="btn-logout" class="w-full text-left block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                Sign out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container with Git Line -->
+    <div class="max-w-[1440px] mx-auto w-full relative px-4 sm:px-6 lg:px-8">
+        
+        <!-- Background elements -->
+        <div class="glow-blob"></div>
+        <div class="hidden md:block git-line"></div>
+
+        <!-- Hero Section -->
+        <section class="py-20 md:py-32 relative z-10 pl-0 md:pl-12 flex flex-col lg:flex-row items-center">
+            <!-- Glowing dot on the git line -->
+            <div class="hidden md:flex absolute left-[-6px] top-32 w-5 h-5 rounded-full border-[3px] border-[#0d1117] bg-purple-500 glow-dot z-10"></div>
+            
+            <div class="w-full lg:w-1/2 pr-0 lg:pr-12 text-center md:text-left">
+                <div class="inline-flex items-center space-x-2 border border-gh rounded-full px-4 py-1.5 mb-8 bg-[#161b22]/50 backdrop-blur reveal">
+                    <span class="flex h-2.5 w-2.5 rounded-full bg-blue-500 relative"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span></span>
+                    <span class="text-sm font-medium text-gray-300">Giới thiệu BonfireCode 2.0</span>
+                </div>
+
+                <h1 class="text-6xl sm:text-7xl lg:text-[84px] font-extrabold tracking-tighter leading-[1.1] mb-6 text-white reveal" style="transition-delay: 100ms;">
+                    Nơi kiến tạo <br/> 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">tương lai phần mềm</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gh-muted mb-10 max-w-2xl mx-auto md:mx-0 reveal" style="transition-delay: 200ms;">
+                    BonfireCode là nền tảng lưu trữ mã nguồn lớn nhất dành cho dự án. Tải lên, cộng tác và bảo vệ những dòng code định hình thế giới của bạn.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 reveal w-full" style="transition-delay: 300ms;">
+                    <div class="flex-grow w-full sm:w-auto relative">
+                        <input type="email" placeholder="Địa chỉ email của bạn" class="w-full bg-white text-black px-4 py-3.5 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-base">
+                    </div>
+                    <a href="auth.html" class="w-full sm:w-auto bg-purple-600 hover:bg-purple-500 text-white font-bold px-8 py-3.5 rounded-md transition duration-300 text-center whitespace-nowrap">
+                        Đăng ký GitHub
+                    </a>
+                </div>
+                <div class="mt-4 text-left reveal" style="transition-delay: 400ms;">
+                    <a href="dashboard.html" class="text-blue-400 font-semibold hover:underline flex items-center justify-center md:justify-start">
+                        Bắt đầu dùng thử miễn phí <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Terminal Window Illustration -->
+            <div class="w-full lg:w-1/2 mt-16 lg:mt-0 reveal" style="transition-delay: 400ms;">
+                <div class="code-window overflow-hidden group">
+                    <div class="flex items-center px-4 py-3 bg-[#161b22] border-b border-gh">
+                        <div class="flex space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <div class="mx-auto text-xs font-mono text-gray-500">Program.cs - BonfireCode</div>
+                    </div>
+                    <div class="p-6 bg-[#0d1117] font-mono text-sm leading-relaxed overflow-x-auto text-gray-300">
+                        <div class="text-blue-400">using</div> <span class="text-white">Microsoft.AspNetCore.Authentication.JwtBearer;</span><br/>
+                        <div class="text-blue-400">using</div> <span class="text-white">GiuaKy.Data;</span><br/><br/>
+                        
+                        <span class="text-purple-400">var</span> builder = WebApplication.<span class="text-yellow-200">CreateBuilder</span>(args);<br/><br/>
+                        
+                        <span class="text-gray-500">// Cấu hình BonfireCode API</span><br/>
+                        builder.Services.<span class="text-yellow-200">AddControllers</span>();<br/>
+                        builder.Services.<span class="text-yellow-200">AddEndpointsApiExplorer</span>();<br/>
+                        builder.Services.<span class="text-yellow-200">AddSwaggerGen</span>(c => <br/>
+                        {<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;c.SwaggerDoc(<span class="text-green-300">"v1"</span>, <span class="text-blue-400">new</span> OpenApiInfo { <br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Title = <span class="text-green-300">"BonfireCode API"</span>,<br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Description = <span class="text-green-300">"Nơi kết nối các linh hồn rực lửa."</span><br/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;});<br/>
+                        });<br/><br/>
+                        
+                        <span class="text-purple-400">var</span> app = builder.<span class="text-yellow-200">Build</span>();<br/>
+                        <span class="text-gray-500 group-hover:text-white transition duration-1000">app.Run(); // Khởi chạy tương lai</span><br/>
+                        <span class="animate-pulse">_</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Section 1 -->
+        <section class="py-24 relative pl-0 md:pl-12">
+            <!-- Glowing dot -->
+            <div class="hidden md:flex absolute left-[-6px] top-32 w-5 h-5 rounded-full border-[3px] border-[#0d1117] bg-blue-500 z-10"></div>
+            
+            <div class="max-w-3xl mb-12 reveal">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Năng suất tối đa. <br/><span class="text-blue-400">Không giới hạn sự sáng tạo.</span></h2>
+                <p class="text-xl text-gh-muted">Tăng tốc quá trình phát triển với các công cụ lưu trữ dự án, cộng tác nhóm, và bảo mật chuyên sâu. Tất cả hội tụ trong một giao diện duy nhất.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal" style="transition-delay: 200ms;">
+                <div class="code-window p-8 bg-[#161b22] relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-full blur-2xl transition group-hover:bg-purple-500/20"></div>
+                    <svg class="w-8 h-8 text-purple-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    <h3 class="text-2xl font-semibold text-white mb-3">Lưu trữ linh hoạt</h3>
+                    <p class="text-gh-muted">Hỗ trợ tải lên mã nguồn (Source Code) và ảnh bìa trực tiếp. Phân loại theo ngôn ngữ: C#, PHP, Java, JavaScript một cách gọn gàng.</p>
+                </div>
+                
+                <div class="code-window p-8 bg-[#161b22] relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full blur-2xl transition group-hover:bg-blue-500/20"></div>
+                    <svg class="w-8 h-8 text-blue-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <h3 class="text-2xl font-semibold text-white mb-3">Bảo mật JWT tuyệt đối</h3>
+                    <p class="text-gh-muted">Xác thực người dùng hai lớp qua JSON Web Token và BCrypt. Không ai có thể giả mạo để tải lên hay xóa dự án của bạn.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Section 2 -->
+        <section class="py-24 relative pl-0 md:pl-12 border-t border-gh">
+            <!-- Glowing dot -->
+            <div class="hidden md:flex absolute left-[-6px] top-32 w-5 h-5 rounded-full border-[3px] border-[#0d1117] bg-green-500 z-10"></div>
+            
+            <div class="max-w-3xl mb-12 reveal">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Cộng đồng mạnh mẽ. <br/><span class="text-green-400">Kết nối các lập trình viên.</span></h2>
+                <p class="text-xl text-gh-muted">Tham gia hàng triệu Kẻ Khống Lửa khác. Đánh giá chất lượng dự án bằng hệ thống tính sao thông minh và thảo luận qua các Lời Sấm Truyền.</p>
+            </div>
+
+            <div class="w-full bg-[#161b22] border border-gh rounded-md p-8 md:p-12 reveal relative overflow-hidden">
+                <!-- Decorative background elements -->
+                <div class="absolute right-0 bottom-0 w-64 h-64 bg-green-500/10 blur-[80px] rounded-full"></div>
+                
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="w-full md:w-1/2 pr-0 md:pr-8 mb-8 md:mb-0 relative z-10">
+                        <h3 class="text-2xl font-bold text-white mb-4">Hệ thống Đánh giá Thời gian thực</h3>
+                        <p class="text-gh-muted mb-6">Giao diện chi tiết (Project Detail) giúp bạn dễ dàng theo dõi số điểm trung bình của dự án. Góp ý kiến trực tiếp qua mục bình luận được đồng bộ ngay lập tức với cơ sở dữ liệu MySQL.</p>
+                        <a href="dashboard.html" class="text-white font-semibold flex items-center hover:text-green-400 transition">
+                            Xem các dự án nổi bật <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2 relative z-10">
+                        <!-- Mockup of a review card -->
+                        <div class="bg-[#0d1117] border border-gh rounded-md p-6 shadow-2xl transform md:translate-x-4 md:-rotate-2 hover:rotate-0 transition duration-500">
+                            <div class="flex items-center justify-between mb-4 border-b border-gh pb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-blue-500"></div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm">Vô Chú Hồi</div>
+                                        <div class="text-xs text-gh-muted">2 phút trước</div>
+                                    </div>
+                                </div>
+                                <div class="flex text-yellow-500 text-sm tracking-widest">?????</div>
+                            </div>
+                            <p class="text-gray-300 text-sm">"Kiến trúc Project quá đỉnh! Áp dụng Entity Framework và Dependency Injection chuẩn xác. UI làm lại bằng Tailwind nhìn như GitHub luôn, 10 điểm!"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div> <!-- End Main Container -->
+
+    <!-- Footer -->
+    <footer class="border-t border-gh py-12 mt-12 bg-[#0d1117] relative z-20">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gh-muted">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <img src="assets/images/1.JPG" alt="Logo" class="w-6 h-6 rounded-full object-cover grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition duration-300">
+                    <span>&copy; 2026 BonfireCode, Inc. Đồ án Niên Luận.</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-blue-400 transition">Điều khoản</a>
+                    <a href="#" class="hover:text-blue-400 transition">Bảo mật</a>
+                    <a href="#" class="hover:text-blue-400 transition">Trạng thái</a>
+                    <a href="#" class="hover:text-blue-400 transition">Liên hệ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100; // triggers slightly earlier
+                
+                reveals.forEach(reveal => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            setTimeout(revealOnScroll, 50); // Trigger instantly
+        });
+    </script>
+</body>
+</html>
+

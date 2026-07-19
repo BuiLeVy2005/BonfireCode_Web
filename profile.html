@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Của Tôi - BonfireCode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #c9d1d9; }
+        /* Hiệu ứng chớp nháy điện từ của thanh bar */
+        @keyframes lightningGlow {
+            0%, 100% { box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; filter: brightness(1); }
+            10%, 30%, 50% { box-shadow: 0 0 15px #ffffff, 0 0 25px #00ffff; filter: brightness(1.5); }
+            20%, 40% { box-shadow: 0 0 5px #00ffff; filter: brightness(1.1); }
+        }
+        /* Hiệu ứng vệt sét xẹt ngang */
+        @keyframes lightningStrike {
+            0% { left: -100%; opacity: 0; }
+            5% { left: 0%; opacity: 1; transform: skewX(-30deg); }
+            15% { left: 150%; opacity: 0; }
+            100% { left: 150%; opacity: 0; }
+        }
+        
+        .bar-lightning {
+            animation: lightningGlow 2s infinite;
+        }
+        .bar-lightning::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 40px; height: 100%;
+            background: #ffffff;
+            box-shadow: 0 0 20px #ffffff, 0 0 30px #00ffff;
+            animation: lightningStrike 2.5s infinite;
+        }
+    </style>
+    <link rel="icon" type="image/jpeg" href="assets/images/1.JPG">
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-[#010409] border-b border-[#30363d] sticky top-0 z-50">
+        <div class="flex justify-between items-center px-6 py-3">
+            <div class="flex items-center gap-3">
+                <a href="dashboard.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <img src="assets/images/1.JPG" alt="Logo" class="w-8 h-8 rounded-full object-cover border border-gray-600">
+                    <span class="logo-text text-xl font-semibold text-gray-100 tracking-wider">BonfireCode</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-4" id="auth-buttons">
+                <a href="auth.html" class="text-sm font-medium text-gray-300 hover:text-white transition duration-300">Đăng nhập</a>
+                <a href="auth.html" class="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">
+                    Đăng ký
+                </a>
+            </div>
+            <div class="flex items-center gap-4 hidden" id="user-buttons">
+                <a href="upload.html" class="flex items-center gap-1 border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Upload
+                </a>
+                <div class="relative">
+                    <button id="btn-avatar-dropdown" class="flex items-center justify-center rounded-full border border-gray-700 hover:border-gray-400 transition focus:outline-none">
+                        <img src="https://placehold.co/100x100/161b22/8b949e?text=U" alt="User" class="w-8 h-8 rounded-full">
+                    </button>
+                    
+                    <!-- Dropdown Menu -->
+                    <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-[#161b22] border border-[#30363d] rounded-md shadow-[0_8px_24px_rgba(0,0,0,0.5)] py-1 z-50 text-sm">
+                        <div class="px-4 py-2 border-b border-[#30363d]">
+                            <p class="font-semibold text-gray-200 truncate" id="dropdown-username">BuiLeVy2005</p>
+                        </div>
+                        
+                        <div class="py-1">
+                            <a href="#" class="flex items-center px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">
+                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Set status
+                            </a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <a href="profile.html" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Profile</a>
+                            <a href="profile.html?tab=my-projects" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Repositories</a>
+                            <a href="profile.html?tab=liked" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Stars</a>
+                            <a href="dashboard.html" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Dashboard</a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <a href="profile.html?action=edit" class="block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Settings</a>
+                        </div>
+                        
+                        <div class="border-t border-[#30363d] my-1"></div>
+                        
+                        <div class="py-1">
+                            <button id="btn-logout" class="w-full text-left block px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                                Sign out
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Thanh Tab Điều Hướng -->
+    <nav class="border-b border-[#30363d] px-4 md:px-10 flex gap-4 text-sm mt-4">
+        <a id="tab-overview" class="pb-2 border-b-2 border-[#f78166] text-white font-semibold focus:outline-none cursor-pointer">Tổng quan</a>
+        <a id="tab-my-projects" class="pb-2 text-gray-400 hover:text-white transition focus:outline-none cursor-pointer">Bảo vật của tôi</a>
+        <a id="tab-liked" class="pb-2 text-gray-400 hover:text-white transition focus:outline-none cursor-pointer">Đã thích</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 w-full flex-grow">
+        <!-- Cột Trái (Sidebar) -->
+        <aside class="col-span-12 lg:col-span-3 text-center lg:text-left">
+            <div class="relative w-64 h-[350px] mx-auto lg:mx-0 mb-4 overflow-hidden rounded-xl border border-[#30363d] group">
+                <!-- Banner Nền (Z-0) -->
+                <div id="profile-banner" class="absolute inset-0 bg-cover bg-center z-0 transition-all duration-300" style="background-image: url('https://placehold.co/300x500/161b22/8b949e?text=No+Banner')"></div>
+                <!-- Avatar (Z-10) -->
+                <img id="profile-avatar" src="https://placehold.co/100x100/161b22/8b949e?text=U" onerror="this.src='https://placehold.co/100x100/161b22/8b949e?text=U'" alt="Avatar" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full object-cover z-10 shadow-lg transition-all duration-300">
+                
+                <!-- Khung Viền (Z-20) -->
+                <img id="profile-border" src="" onerror="this.classList.add('hidden')" alt="Border" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-44 h-44 object-cover z-20 pointer-events-none hidden transition-all duration-300">
+
+                <!-- Icon Sửa (Z-30) -->
+                <div id="btn-open-identity-modal" class="absolute inset-0 bg-black/50 z-30 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center cursor-pointer">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                </div>
+            </div>
+            
+            <h1 id="profile-username" class="text-2xl font-bold text-white">Kẻ Khống Lửa</h1>
+            <p id="profile-id" class="text-xl text-gray-500 mb-4">Người dùng ẩn danh</p>
+            <p id="profile-bio" class="text-gray-300 text-sm mb-4">Sinh viên ngành CNTT - ĐH Đồng Tháp</p>
+            <button id="btn-edit-profile" class="w-full mt-4 bg-[#21262d] border border-[#30363d] rounded-md py-1 text-sm font-semibold hover:bg-[#30363d] transition text-gray-300">
+                Chỉnh sửa hồ sơ
+            </button>
+            <div class="mt-4 text-sm text-gray-400 flex items-center justify-center lg:justify-start gap-1">
+                <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-3.427-3.411 3.003 3.003 0 00-1.353-4.62z"></path></svg>
+                <span id="profile-followers-count" class="font-semibold text-white">0</span> followers · <span id="profile-following-count" class="font-semibold text-white">0</span> following
+            </div>
+            <p class="text-xs text-gray-500 mt-2">Đã tham gia từ 2023</p>
+
+            <!-- Khối Xếp hạng và Tàn lửa -->
+            <div class="mt-6 w-full max-w-sm bg-[#0d1117] border border-[#1e2329] rounded-lg p-4 shadow-lg">
+                <div class="flex justify-between items-end mb-2">
+                    <div class="flex items-center gap-2">
+                        <!-- Khu vực render Icon SVG của Rank -->
+                        <div id="user-rank-icon" class="w-8 h-8 text-[#ff4500]"></div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-semibold uppercase">Cảnh giới hiện tại</p>
+                            <p id="user-rank-name" class="text-lg font-bold text-[#c8aa6e] drop-shadow-[0_0_5px_rgba(200,170,110,0.5)]">Kẻ Nhóm Lửa</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span id="user-embers" class="text-xl font-bold text-[#ff4500]">0</span>
+                        <span id="user-required-embers" class="text-xs text-gray-500">/ 100 Tàn Lửa</span>
+                    </div>
+                </div>
+                <!-- Thanh Progress -->
+                <div class="w-full h-2 bg-[#161b22] rounded-full overflow-hidden">
+                    <div id="ember-progress-bar" class="h-full bg-gradient-to-r from-[#8b0000] via-[#ff4500] to-[#ffa500] shadow-[0_0_8px_#ff4500] transition-all duration-1000 ease-out" style="width: 0%;"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Cột Phải (Main Content) -->
+        <div class="col-span-12 lg:col-span-9 space-y-8 relative">
+            
+            <!-- SECTION 1: Tổng quan (Overview) -->
+            <div id="content-overview" class="space-y-8 block">
+                <!-- Phần 0: Ảnh Bìa -->
+                <section class="relative w-full h-48 md:h-64 rounded-xl overflow-hidden border border-[#30363d]">
+                    <img id="profile-cover" src="https://placehold.co/1200x400/161b22/8b949e?text=Cover+Image" alt="Cover" class="w-full h-full object-cover">
+                </section>
+                
+                <!-- Phần 1: Đồ án Nổi Bật -->
+                <section>
+                <h2 class="text-sm font-semibold mb-3 text-white">Các đồ án nổi bật</h2>
+                <div id="pinned-projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Card 1 -->
+                    <div class="border border-[#30363d] p-4 rounded-md bg-[#0d1117]">
+                        <div class="flex items-center justify-between mb-2">
+                            <a href="#" class="text-blue-400 font-semibold text-sm hover:underline">QuanLyBanHang_PHP</a>
+                            <span class="text-xs text-gray-400 border border-[#30363d] px-2 py-0.5 rounded-full">Công cộng</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-4 h-10 line-clamp-2">Hệ thống quản lý bán hàng đa kênh sử dụng PHP thuần và MySQL, tích hợp thanh toán Momo.</p>
+                        <div class="flex items-center gap-4 text-xs text-gray-400">
+                            <span class="flex items-center gap-1">
+                                <span class="w-3 h-3 rounded-full bg-purple-500 inline-block"></span> PHP
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+                                124
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="border border-[#30363d] p-4 rounded-md bg-[#0d1117]">
+                        <div class="flex items-center justify-between mb-2">
+                            <a href="#" class="text-blue-400 font-semibold text-sm hover:underline">Game_EldenRing_Clone</a>
+                            <span class="text-xs text-gray-400 border border-[#30363d] px-2 py-0.5 rounded-full">Công cộng</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-4 h-10 line-clamp-2">Một bản sao nhỏ của tựa game Elden Ring xây dựng bằng Unity và C#.</p>
+                        <div class="flex items-center gap-4 text-xs text-gray-400">
+                            <span class="flex items-center gap-1">
+                                <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span> C#
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+                                89
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phần 2: Thống Kê Tổng Quan -->
+            <section>
+                <h2 class="text-sm font-semibold mb-3 text-white">Thống kê cống hiến</h2>
+                <div id="stats-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+                    <div class="bg-[#161b22] border border-[#30363d] rounded-md p-4 text-center">
+                        <p class="text-xs text-gray-400 mb-1">Tổng dự án</p>
+                        <p class="text-2xl font-bold text-blue-400">18</p>
+                    </div>
+                    <div class="bg-[#161b22] border border-[#30363d] rounded-md p-4 text-center">
+                        <p class="text-xs text-gray-400 mb-1">Lượt sao</p>
+                        <p class="text-2xl font-bold text-yellow-400">342</p>
+                    </div>
+                    <div class="bg-[#161b22] border border-[#30363d] rounded-md p-4 text-center">
+                        <p class="text-xs text-gray-400 mb-1">Tải xuống</p>
+                        <p class="text-2xl font-bold text-green-400">1.2k</p>
+                    </div>
+                    <div class="bg-[#161b22] border border-[#30363d] rounded-md p-4 text-center">
+                        <p class="text-xs text-gray-400 mb-1">Bình luận</p>
+                        <p class="text-2xl font-bold text-purple-400">89</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Phần 3: Dấu chân hoạt động -->
+            <section>
+                <h2 class="text-sm font-semibold mb-4 text-white">Hoạt động đóng góp</h2>
+                <ul class="space-y-4">
+                    <li class="flex gap-4">
+                        <div class="mt-1">
+                            <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M11.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122V6A2.5 2.5 0 0110 8.5H6a1 1 0 00-1 1v1.128a2.251 2.251 0 11-1.5 0V5.372a2.25 2.25 0 111.5 0v1.836A2.492 2.492 0 016 7h4a1 1 0 001-1v-.628A2.25 2.25 0 019.5 3.25zM4.25 12a.75.75 0 100 1.5.75.75 0 000-1.5zM3.5 3.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-300">Đã tải lên đồ án <a href="#" class="text-blue-400 font-semibold hover:underline">QuanLyBanHang_PHP</a></p>
+                            <p class="text-xs text-gray-500 mt-0.5">2 ngày trước</p>
+                        </div>
+                    </li>
+                    <li class="flex gap-4">
+                        <div class="mt-1">
+                            <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-300">Đã tạo kho lưu trữ mới <a href="#" class="text-blue-400 font-semibold hover:underline">Game_EldenRing_Clone</a></p>
+                            <p class="text-xs text-gray-500 mt-0.5">1 tuần trước</p>
+                        </div>
+                    </li>
+                    <li class="flex gap-4">
+                        <div class="mt-1">
+                            <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 5a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-300">Đã cập nhật profile cá nhân</p>
+                            <p class="text-xs text-gray-500 mt-0.5">2 tuần trước</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            </div> <!-- End content-overview -->
+
+            <!-- SECTION 2: Bảo vật của tôi (My Projects) -->
+            <div id="content-my-projects" class="hidden space-y-4">
+                <h2 class="text-xl font-bold text-white mb-4">Đồ án của tôi</h2>
+                <div id="my-projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Project Cards will be rendered here by JS -->
+                </div>
+            </div>
+
+            <!-- SECTION 3: Đã thích (Liked Projects) -->
+            <div id="content-liked" class="hidden space-y-4">
+                <h2 class="text-xl font-bold text-white mb-4">Đồ án đã đánh giá (Đã thích)</h2>
+                <div id="liked-projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Liked Project Cards will be rendered here by JS -->
+                </div>
+                <!-- Loading State for Liked Projects -->
+                <div id="liked-loading" class="hidden text-center text-gray-500 py-10">
+                    <svg class="animate-spin h-8 w-8 mx-auto text-[#f78166] mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <p>Đang tải dữ liệu...</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0d1117] border-t border-gray-800 py-8 text-center text-neutral-500 text-sm mt-12">
+        <p>&copy; 2026 BonfireCode. Dự án Niên Luận - Võ Chí Hải.</p>
+    </footer>
+
+    <!-- Gamification Identity Modal -->
+    <div id="identityModal" class="fixed inset-0 bg-black/90 hidden z-[60] flex items-center justify-center transition-opacity p-4">
+        <div class="w-[900px] max-w-[95vw] h-[600px] max-h-[90vh] bg-[#0a0a0c] border border-[#1e2329] rounded-md shadow-2xl flex flex-row overflow-hidden relative">
+            <!-- Cột Trái (Preview Column) -->
+            <div class="w-[280px] h-full bg-[#0d1117] border-r border-[#1e2329] flex flex-col relative items-center flex-shrink-0">
+                <!-- Banner -->
+                <div id="preview-id-banner" class="absolute inset-x-3 top-4 bottom-16 bg-[#161b22] bg-gradient-to-b from-[#161b22] to-[#0d1117] rounded overflow-hidden bg-cover bg-center transition-all duration-300 opacity-60" style="background-image: url('https://placehold.co/300x500/0d1117/30363d?text=Banner')"></div>
+                
+                <!-- Avatar & Khung -->
+                <div class="relative z-10 mt-12 w-28 h-28 flex justify-center items-center border border-[#c8aa6e]/50 rounded-full">
+                    <img id="preview-id-avatar" src="https://placehold.co/200x200/161b22/c8aa6e?text=Avatar" onerror="this.src='https://placehold.co/200x200/161b22/c8aa6e?text=Avatar'" class="w-full h-full rounded-full object-cover shadow-lg transition-all duration-300">
+                    <img id="preview-id-border" src="" onerror="this.classList.add('hidden')" class="absolute -inset-4 scale-110 pointer-events-none transition-all duration-300 hidden">
+                </div>
+
+                <!-- Text -->
+                <div class="relative z-10 mt-16 text-center px-4 w-full">
+                    <h3 id="preview-id-fullname" class="text-xl font-bold text-white line-clamp-1">Tên người dùng</h3>
+                    <p id="preview-id-username" class="text-sm text-[#8b949e] mt-1 truncate">@username</p>
+                </div>
+            </div>
+
+            <!-- Cột Phải (Selection Column) -->
+            <div class="flex-1 h-full flex flex-col bg-[#0a0a0c] p-6 overflow-hidden">
+                <!-- Header -->
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-white uppercase tracking-wider">Tùy Chỉnh Định Danh</h2>
+                    <button id="btn-close-identity-modal" class="text-gray-400 hover:text-white transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Thanh Tabs -->
+                <nav class="flex gap-6 border-b border-[#1e2329] pb-2 mt-4 text-xs font-bold text-gray-400 uppercase">
+                    <button id="tab-id-avatar" class="pb-2 border-b-2 border-[#c8aa6e] text-[#c8aa6e] focus:outline-none transition">Biểu Tượng</button>
+                    <button id="tab-id-border" class="pb-2 border-b-2 border-transparent hover:text-white hover:border-gray-600 transition focus:outline-none">Khung</button>
+                    <button id="tab-id-banner" class="pb-2 border-b-2 border-transparent hover:text-white hover:border-gray-600 transition focus:outline-none">Cờ Hiệu</button>
+                </nav>
+
+                <!-- Thanh Công Cụ -->
+                <div class="mt-4">
+                    <input type="text" placeholder="Tìm kiếm vật phẩm..." class="w-full md:w-1/2 bg-[#161b22] border border-[#1e2329] text-sm text-gray-300 px-3 py-1.5 rounded focus:outline-none focus:border-[#c8aa6e] transition placeholder-gray-600">
+                </div>
+
+                <!-- Tab Content: Biểu Tượng -->
+                <div id="content-id-avatar" class="flex-1 overflow-y-auto mt-4 pr-2 custom-scrollbar block">
+                    <div class="grid grid-cols-5 gap-3" id="avatar-grid">
+                        <div id="btn-upload-custom-avatar" class="relative w-full aspect-square bg-[#161b22] border border-dashed border-gray-600 hover:border-[#c8aa6e] rounded cursor-pointer transition flex flex-col items-center justify-center group">
+                            <svg class="w-8 h-8 text-gray-500 group-hover:text-[#c8aa6e] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            <span class="text-xs text-gray-500 mt-2 group-hover:text-[#c8aa6e] transition">Tải lên</span>
+                        </div>
+                        <input type="file" id="input-upload-avatar" class="hidden" accept="image/*">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/485f964065a681bc5934c43411bca2cd.jpg" alt="Avatar 1" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/485f964065a681bc5934c43411bca2cd.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/4aa8179bab1f3b42272c8004ebe2340c.jpg" alt="Avatar 2" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/4aa8179bab1f3b42272c8004ebe2340c.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/avatar-lien-quan-hoat-hoa-2.webp" alt="Avatar 3" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/avatar-lien-quan-hoat-hoa-2.webp" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/c5555fdbae29a0acf80420fa3889c9f5.jpg" alt="Avatar 4" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/c5555fdbae29a0acf80420fa3889c9f5.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/e492f831968281160a27deae08830e70.jpg" alt="Avatar 5" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/e492f831968281160a27deae08830e70.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/tumblr_110b8e31ee57ccc9458bfd0afb50fb39_35b313a5_400.jpg" alt="Avatar 6" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/tumblr_110b8e31ee57ccc9458bfd0afb50fb39_35b313a5_400.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/tumblr_3110e61f1b21ec15529d89c976026a09_6f70c7b8_400.jpg" alt="Avatar 7" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/tumblr_3110e61f1b21ec15529d89c976026a09_6f70c7b8_400.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/z8056922975241_804fcfc8cc2c3105878d88caa88b63a5.jpg" alt="Avatar 8" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-[#c8aa6e]" data-url="/storage/system_avatars/z8056922975241_804fcfc8cc2c3105878d88caa88b63a5.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/z8056922983621_8093b22a9ff67a363a9898e6f869797a.jpg" alt="Avatar 9" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/z8056922983621_8093b22a9ff67a363a9898e6f869797a.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/z8056923004499_48494807d2263b431df0308795358416.jpg" alt="Avatar 10" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/z8056923004499_48494807d2263b431df0308795358416.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/z8056923014571_f4f721e8e6c58c3edf679fd41a706043.jpg" alt="Avatar 11" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/z8056923014571_f4f721e8e6c58c3edf679fd41a706043.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/z8056923027392_93a26e96930c82a57f87549509be41ce.jpg" alt="Avatar 12" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/z8056923027392_93a26e96930c82a57f87549509be41ce.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                        <img src="https://bonfirecode-api.onrender.com/storage/system_avatars/z8056923037756_e40861ab458934266e7994811d7e6ac0.jpg" alt="Avatar 13" class="id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-transparent" data-url="/storage/system_avatars/z8056923037756_e40861ab458934266e7994811d7e6ac0.jpg" onerror="this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'">
+                    </div>
+                </div>
+
+                <!-- Tab Content: Khung -->
+                <div id="content-id-border" class="flex-1 overflow-y-auto mt-4 pr-2 custom-scrollbar hidden">
+                    <div class="grid grid-cols-5 gap-3">
+                        <div class="id-item-border relative aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 rounded cursor-pointer transition flex flex-col items-center justify-center ring-2 ring-[#c8aa6e]" data-url="">
+                            <span class="text-gray-500 text-xs">Không</span>
+                        </div>
+
+
+                        <!-- KHUNG VIỀN: INFERNAL DRAGON (ANIMATED) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="infernal-dragon">
+                            <!-- Demo Avatar -->
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            
+                            <!-- MÃ SVG ANIMATION -->
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <!-- Gradient Dung Nham -->
+                                    <linearGradient id="fireEnergy" x1="0%" y1="100%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#8b0000" />
+                                        <stop offset="40%" stop-color="#ff4500" />
+                                        <stop offset="80%" stop-color="#ffa500" />
+                                        <stop offset="100%" stop-color="#ffff00" />
+                                    </linearGradient>
+                                    
+                                    <!-- Bộ lọc Glow -->
+                                    <filter id="fireGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="3" result="blur" />
+                                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                    </filter>
+                                </defs>
+                                
+                                <!-- Khai báo CSS Animation -->
+                                <style>
+                                    .dragon-body {
+                                        stroke-dasharray: 70 25;
+                                        animation: flowFire 2s linear infinite;
+                                    }
+                                    .dragon-head {
+                                        animation: pulseFlame 1.5s ease-in-out infinite;
+                                        transform-origin: 25px 25px;
+                                    }
+                                    .spark {
+                                        animation: spinSpark 6s linear infinite;
+                                        transform-origin: 95px 95px;
+                                    }
+                                    
+                                    /* Hiệu ứng lửa cuộn tròn */
+                                    @keyframes flowFire {
+                                        to { stroke-dashoffset: -95; }
+                                    }
+                                    /* Hiệu ứng đầu rồng đập nhịp phát sáng */
+                                    @keyframes pulseFlame {
+                                        0%, 100% { filter: drop-shadow(0 0 3px #ff4500) brightness(1); transform: scale(1); }
+                                        50% { filter: drop-shadow(0 0 12px #ffa500) brightness(1.3); transform: scale(1.05); }
+                                    }
+                                    /* Hiệu ứng xoay vòng ngôi sao năng lượng */
+                                    @keyframes spinSpark {
+                                        100% { transform: rotate(360deg); }
+                                    }
+                                </style>
+                                
+                                <!-- Vòng lửa uốn lượn (Thân rồng) -->
+                                <path class="dragon-body" d="M 60 10 A 50 50 0 1 1 24.6 95.3 A 54 54 0 1 0 10 60" fill="none" stroke="url(#fireEnergy)" stroke-width="4.5" filter="url(#fireGlow)" stroke-linecap="round"/>
+                                
+                                <!-- Đầu Rồng (Góc 10 giờ) -->
+                                <g class="dragon-head">
+                                    <path d="M 25 35 L 12 12 L 38 22 L 20 28 Z" fill="#ff4500" />
+                                    <path d="M 38 18 L 28 4 L 45 12 Z" fill="#ffa500" />
+                                </g>
+                                
+                                <!-- Hỏa Tinh (Ngôi sao góc 4 giờ) -->
+                                <g class="spark">
+                                    <polygon points="95,75 100,90 115,95 100,100 95,115 90,100 75,95 90,90" fill="#ffff00" filter="url(#fireGlow)"/>
+                                    <polygon points="95,82 98,92 108,95 98,98 95,108 92,98 82,95 92,92" fill="#ff4500"/>
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- 1. KHUNG HƯ KHÔNG (THE VOID) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="void">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="voidGlow" x="-30%" y="-30%" width="160%" height="160%">
+                                        <feGaussianBlur stdDeviation="3" result="blur" />
+                                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                    </filter>
+                                </defs>
+                                <style>
+                                    .void-ring { stroke-dasharray: 30 15; animation: spinVoid 8s linear infinite reverse; transform-origin: 60px 60px; }
+                                    .void-energy { animation: pulseVoid 2s ease-in-out infinite alternate; transform-origin: 60px 60px; }
+                                    @keyframes spinVoid { 100% { transform: rotate(360deg); } }
+                                    @keyframes pulseVoid { 0% { transform: scale(0.98); opacity: 0.7; } 100% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 8px #9b59b6); } }
+                                </style>
+                                <!-- Vòng xoáy đứt gãy -->
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="#4a235a" stroke-width="5" filter="url(#voidGlow)" class="void-ring" />
+                                <!-- Các gai hắc ám bọc ngoài -->
+                                <path d="M 60 4 L 75 15 L 60 22 L 45 15 Z" fill="#8e44ad" class="void-energy" filter="url(#voidGlow)"/>
+                                <path d="M 60 116 L 75 105 L 60 98 L 45 105 Z" fill="#8e44ad" class="void-energy" filter="url(#voidGlow)"/>
+                                <path d="M 4 60 L 15 45 L 22 60 L 15 75 Z" fill="#6c3483" class="void-energy" filter="url(#voidGlow)"/>
+                                <path d="M 116 60 L 105 45 L 98 60 L 105 75 Z" fill="#6c3483" class="void-energy" filter="url(#voidGlow)"/>
+                            </svg>
+                        </div>
+
+                        <!-- 2. KHUNG CÔNG NGHỆ (HEXTECH) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="hextech">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="hexGlow"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <style>
+                                    .hex-gear { stroke-dasharray: 10 5; animation: spinHex 10s linear infinite; transform-origin: 60px 60px; }
+                                    .hex-core { animation: blinkHex 1.5s steps(2, start) infinite; }
+                                    @keyframes spinHex { 100% { transform: rotate3d(0, 0, 1, 360deg); } }
+                                    @keyframes blinkHex { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+                                </style>
+                                <!-- Khung đồng nguyên khối -->
+                                <rect x="12" y="12" width="96" height="96" rx="20" fill="none" stroke="#b8860b" stroke-width="3" filter="url(#hexGlow)" />
+                                <!-- Bánh răng xoay bên trong -->
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#daa520" stroke-width="4" class="hex-gear" />
+                                <!-- Lõi tinh thể Hextech (4 góc) -->
+                                <circle cx="12" cy="12" r="5" fill="#00ffff" class="hex-core" filter="url(#hexGlow)" />
+                                <circle cx="108" cy="12" r="5" fill="#00ffff" class="hex-core" filter="url(#hexGlow)" />
+                                <circle cx="12" cy="108" r="5" fill="#00ffff" class="hex-core" filter="url(#hexGlow)" />
+                                <circle cx="108" cy="108" r="5" fill="#00ffff" class="hex-core" filter="url(#hexGlow)" />
+                            </svg>
+                        </div>
+
+                        <!-- 3. KHUNG BĂNG GIÁ (FRELJORD) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="freljord">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="frostGlow"><feGaussianBlur stdDeviation="3" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                    <linearGradient id="iceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#ffffff" />
+                                        <stop offset="50%" stop-color="#00bfff" />
+                                        <stop offset="100%" stop-color="#87cefa" />
+                                    </linearGradient>
+                                </defs>
+                                <style>
+                                    .frost-ring { animation: breatheIce 4s ease-in-out infinite; transform-origin: 60px 60px; }
+                                    .frost-sparkle { animation: twinkle 2s ease-in-out infinite alternate; }
+                                    @keyframes breatheIce { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.02); opacity: 1; filter: drop-shadow(0 0 6px #00ffff); } }
+                                    @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+                                </style>
+                                <!-- Vòng băng giá -->
+                                <circle cx="60" cy="60" r="49" fill="none" stroke="url(#iceGrad)" stroke-width="4" filter="url(#frostGlow)" class="frost-ring" />
+                                <!-- Tinh thể băng sắc nhọn -->
+                                <path d="M 60 2 L 68 18 L 52 18 Z" fill="#ffffff" filter="url(#frostGlow)" class="frost-ring"/>
+                                <path d="M 60 118 L 68 102 L 52 102 Z" fill="#ffffff" filter="url(#frostGlow)" class="frost-ring"/>
+                                <path d="M 2 60 L 18 52 L 18 68 Z" fill="#00ffff" filter="url(#frostGlow)" class="frost-ring"/>
+                                <path d="M 118 60 L 102 52 L 102 68 Z" fill="#00ffff" filter="url(#frostGlow)" class="frost-ring"/>
+                                <!-- Hạt tuyết lấp lánh -->
+                                <circle cx="25" cy="25" r="2" fill="#fff" class="frost-sparkle" style="animation-delay: 0s;" />
+                                <circle cx="95" cy="95" r="2" fill="#fff" class="frost-sparkle" style="animation-delay: 1s;" />
+                            </svg>
+                        </div>
+
+                        <!-- 4. KHUNG THIÊN NHIÊN (SYLVAN/DRUID) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="sylvan">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="natureGlow"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <style>
+                                    .vine-ring { stroke-dasharray: 80 40; animation: growVine 6s linear infinite; transform-origin: 60px 60px; }
+                                    .leaf { animation: swayLeaf 3s ease-in-out infinite alternate; }
+                                    @keyframes growVine { 100% { transform: rotate(360deg); } }
+                                    @keyframes swayLeaf { 0% { transform: rotate(-5deg); } 100% { transform: rotate(5deg); filter: drop-shadow(0 0 4px #2ecc71); } }
+                                </style>
+                                <circle cx="60" cy="60" r="49" fill="none" stroke="#27ae60" stroke-width="4" filter="url(#natureGlow)" class="vine-ring" />
+                                <path d="M 60 4 C 70 4, 75 15, 60 22 C 45 15, 50 4, 60 4 Z" fill="#2ecc71" class="leaf" transform-origin="60 22" />
+                                <path d="M 116 60 C 116 70, 105 75, 98 60 C 105 45, 116 50, 116 60 Z" fill="#2ecc71" class="leaf" transform-origin="98 60" />
+                                <path d="M 4 60 C 4 50, 15 45, 22 60 C 15 75, 4 70, 4 60 Z" fill="#2ecc71" class="leaf" transform-origin="22 60" />
+                            </svg>
+                        </div>
+
+                        <!-- 5. KHUNG HUYẾT NGUYỆT (BLOOD MOON) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="blood-moon">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="bloodGlow"><feGaussianBlur stdDeviation="4" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <style>
+                                    .blood-pulse { animation: pulseBlood 1.5s ease-in-out infinite; transform-origin: 60px 60px; }
+                                    .blood-drip { stroke-dasharray: 20 10; animation: dripBlood 3s linear infinite; }
+                                    @keyframes pulseBlood { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px #dc143c); } 50% { transform: scale(1.05); filter: drop-shadow(0 0 15px #ff0000); } }
+                                    @keyframes dripBlood { 100% { stroke-dashoffset: -30; } }
+                                </style>
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#8b0000" stroke-width="4" filter="url(#bloodGlow)" />
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="#dc143c" stroke-width="2" class="blood-drip" filter="url(#bloodGlow)" />
+                                <path d="M 60 2 L 70 12 L 50 12 Z" fill="#ff0000" class="blood-pulse" />
+                                <path d="M 98 22 L 108 32 L 88 32 Z" fill="#8b0000" class="blood-pulse" transform="rotate(45 98 22)" />
+                                <path d="M 22 22 L 32 32 L 12 32 Z" fill="#8b0000" class="blood-pulse" transform="rotate(-45 22 22)" />
+                            </svg>
+                        </div>
+
+                        <!-- 6. KHUNG THẦN THÁNH (CELESTIAL) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="celestial">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="holyGlow"><feGaussianBlur stdDeviation="3" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <style>
+                                    .holy-inner { stroke-dasharray: 40 20; animation: spinHoly 8s linear infinite; transform-origin: 60px 60px; }
+                                    .holy-outer { stroke-dasharray: 20 40; animation: spinHoly 12s linear infinite reverse; transform-origin: 60px 60px; }
+                                    .halo { animation: glowHalo 2s ease-in-out infinite alternate; }
+                                    @keyframes spinHoly { 100% { transform: rotate(360deg); } }
+                                    @keyframes glowHalo { 0% { opacity: 0.7; } 100% { opacity: 1; filter: drop-shadow(0 0 10px #f1c40f); } }
+                                </style>
+                                <circle cx="60" cy="60" r="46" fill="none" stroke="#f1c40f" stroke-width="2" class="holy-inner" filter="url(#holyGlow)" />
+                                <circle cx="60" cy="60" r="52" fill="none" stroke="#fff9c4" stroke-width="3" class="holy-outer" filter="url(#holyGlow)" />
+                                <path d="M 60 6 L 65 16 L 55 16 Z" fill="#ffffff" class="halo" />
+                                <path d="M 40 12 L 45 20 L 35 20 Z" fill="#f1c40f" class="halo" />
+                                <path d="M 80 12 L 85 20 L 75 20 Z" fill="#f1c40f" class="halo" />
+                            </svg>
+                        </div>
+
+                        <!-- 7. KHUNG HẮC TINH (DARK STAR) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="dark-star">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="darkGlow"><feGaussianBlur stdDeviation="4" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                    <linearGradient id="darkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#0f0c29" />
+                                        <stop offset="50%" stop-color="#302b63" />
+                                        <stop offset="100%" stop-color="#ff00cc" />
+                                    </linearGradient>
+                                </defs>
+                                <style>
+                                    .blackhole { animation: suckIn 4s linear infinite; transform-origin: 60px 60px; }
+                                    .orbit-star { animation: orbit 3s linear infinite; transform-origin: 60px 60px; }
+                                    @keyframes suckIn { 0% { transform: scale(1) rotate(0deg); opacity: 1; } 50% { transform: scale(0.95) rotate(180deg); opacity: 0.8; } 100% { transform: scale(1) rotate(360deg); opacity: 1; } }
+                                    @keyframes orbit { 100% { transform: rotate(360deg); } }
+                                </style>
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="url(#darkGrad)" stroke-width="6" class="blackhole" filter="url(#darkGlow)" stroke-dasharray="80 20" />
+                                <circle cx="10" cy="60" r="3" fill="#ff00cc" class="orbit-star" filter="url(#darkGlow)" />
+                                <circle cx="110" cy="60" r="2" fill="#ffffff" class="orbit-star" style="animation-duration: 2s;" filter="url(#darkGlow)" />
+                            </svg>
+                        </div>
+
+                        <!-- 8. KHUNG HÓA KỸ (CHEMTECH) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="chemtech">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="acidGlow"><feGaussianBlur stdDeviation="3" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <style>
+                                    .acid-ring { stroke-dasharray: 15 10 30 10; animation: flowAcid 4s linear infinite; transform-origin: 60px 60px; }
+                                    .bubble { animation: popBubble 2s ease-in infinite; }
+                                    @keyframes flowAcid { 100% { transform: rotate(-360deg); } }
+                                    @keyframes popBubble { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-10px) scale(1.5); opacity: 0; } }
+                                </style>
+                                <circle cx="60" cy="60" r="49" fill="none" stroke="#228b22" stroke-width="4" />
+                                <circle cx="60" cy="60" r="49" fill="none" stroke="#adff2f" stroke-width="3" class="acid-ring" filter="url(#acidGlow)" />
+                                <circle cx="30" cy="20" r="4" fill="#32cd32" class="bubble" filter="url(#acidGlow)" />
+                                <circle cx="90" cy="30" r="3" fill="#adff2f" class="bubble" style="animation-delay: 1s;" filter="url(#acidGlow)" />
+                                <circle cx="60" cy="110" r="5" fill="#32cd32" class="bubble" style="animation-delay: 0.5s;" filter="url(#acidGlow)" />
+                            </svg>
+                        </div>
+
+                        <!-- ================== NHÓM 1: ÂM HƯỞNG DARK SOULS ================== -->
+
+                        <!-- 9. KHUNG DẤU ẤN TĂM TỐI (THE DARK SIGN) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="dark-sign">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs><filter id="dsGlow"><feGaussianBlur stdDeviation="3" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter></defs>
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="#111" stroke-width="8" filter="drop-shadow(0 0 5px #ff4500)" />
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#ff4500" stroke-width="2" filter="url(#dsGlow)" stroke-dasharray="10 5 20 5" />
+                            </svg>
+                        </div>
+
+                        <!-- 10. KHUNG VƯƠNG MIỆN GAI (CROWN OF THORNS) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="crown-of-thorns">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#3e3e3e" stroke-width="4" />
+                                <path d="M 60 12 C 75 12, 85 25, 95 40" fill="none" stroke="#2c2c2c" stroke-width="3" />
+                                <path d="M 60 108 C 45 108, 35 95, 25 80" fill="none" stroke="#2c2c2c" stroke-width="3" />
+                                <path d="M 60 12 L 55 2 L 65 2 Z" fill="#3e3e3e" stroke="#8b0000" stroke-width="1" />
+                                <path d="M 12 60 L 2 55 L 2 65 Z" fill="#3e3e3e" stroke="#8b0000" stroke-width="1" />
+                                <path d="M 108 60 L 118 55 L 118 65 Z" fill="#3e3e3e" stroke="#8b0000" stroke-width="1" />
+                                <path d="M 60 108 L 55 118 L 65 118 Z" fill="#3e3e3e" stroke="#8b0000" stroke-width="1" />
+                            </svg>
+                        </div>
+
+                        <!-- 11. KHUNG ÁNH DƯƠNG (PRAISE THE SUN) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="praise-the-sun">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs><filter id="sunGlow"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter></defs>
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#f39c12" stroke-width="3" filter="url(#sunGlow)" />
+                                <g stroke="#f1c40f" stroke-width="2" filter="url(#sunGlow)">
+                                    <line x1="60" y1="2" x2="60" y2="10" /> <line x1="60" y1="110" x2="60" y2="118" />
+                                    <line x1="2" y1="60" x2="10" y2="60" /> <line x1="110" y1="60" x2="118" y2="60" />
+                                    <line x1="18" y1="18" x2="25" y2="25" /> <line x1="102" y1="102" x2="95" y2="95" />
+                                    <line x1="102" y1="18" x2="95" y2="25" /> <line x1="18" y1="102" x2="25" y2="95" />
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- ================== NHÓM 2: ÂM HƯỞNG ELDEN RING ================== -->
+
+                        <!-- 12. KHUNG ĐẠI KÝ TỰ (THE GREAT RUNE) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="great-rune">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs><filter id="runeGlow"><feGaussianBlur stdDeviation="1.5" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter></defs>
+                                <g fill="none" stroke="#d4af37" stroke-width="2" filter="url(#runeGlow)">
+                                    <line x1="60" y1="10" x2="60" y2="110" />
+                                    <circle cx="60" cy="45" r="25" />
+                                    <circle cx="60" cy="75" r="25" />
+                                    <circle cx="45" cy="60" r="25" />
+                                    <circle cx="75" cy="60" r="25" />
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- 13. KHUNG MA THUẬT ĐÁ QUANG (GLINTSTONE) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="glintstone">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs><filter id="glintGlow"><feGaussianBlur stdDeviation="2.5" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter></defs>
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#7f8c8d" stroke-width="4" />
+                                <path d="M 60 12 L 50 0 L 70 0 Z" fill="#00ffff" filter="url(#glintGlow)" opacity="0.8" />
+                                <path d="M 12 60 L 0 50 L 0 70 Z" fill="#00ffff" filter="url(#glintGlow)" opacity="0.8" />
+                                <path d="M 108 60 L 120 50 L 120 70 Z" fill="#00ffff" filter="url(#glintGlow)" opacity="0.8" />
+                                <polygon points="25,25 20,15 30,18" fill="#40e0d0" filter="url(#glintGlow)" />
+                                <polygon points="95,95 100,105 90,102" fill="#40e0d0" filter="url(#glintGlow)" />
+                            </svg>
+                        </div>
+
+                        <!-- 14. KHUNG RỄ CÂY HOÀNG KIM (ERDTREE ROOTS) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="erdtree-roots">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs><filter id="erdGlow"><feGaussianBlur stdDeviation="4" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter></defs>
+                                <path d="M 60 10 C 20 10, 10 50, 10 80 C 10 110, 60 110, 60 110" fill="none" stroke="#ffd700" stroke-width="3" filter="url(#erdGlow)" />
+                                <path d="M 60 10 C 100 10, 110 50, 110 80 C 110 110, 60 110, 60 110" fill="none" stroke="#ffeb3b" stroke-width="2" filter="url(#erdGlow)" />
+                                <circle cx="30" cy="30" r="1.5" fill="#fff" filter="url(#erdGlow)" />
+                                <circle cx="90" cy="40" r="2" fill="#fff" filter="url(#erdGlow)" />
+                                <circle cx="50" cy="15" r="1" fill="#fff" filter="url(#erdGlow)" />
+                            </svg>
+                        </div>
+
+                        <!-- 15. KHUNG BÀO TỬ ĐỎ (SCARLET ROT) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="scarlet-rot">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#8b4513" stroke-width="4" />
+                                <circle cx="30" cy="20" r="6" fill="#e9967a" stroke="#8b0000" stroke-width="1" />
+                                <circle cx="25" cy="25" r="4" fill="#fa8072" stroke="#8b0000" stroke-width="1" />
+                                <circle cx="35" cy="28" r="5" fill="#cd5c5c" />
+                                <circle cx="95" cy="85" r="7" fill="#e9967a" stroke="#8b0000" stroke-width="1" />
+                                <circle cx="102" cy="90" r="4" fill="#cd5c5c" />
+                                <path d="M 60 12 C 70 12, 75 16, 75 25" fill="none" stroke="#8b0000" stroke-width="3" />
+                            </svg>
+                        </div>
+
+                        <!-- ================== NHÓM 3: ÂM HƯỞNG LORDS OF THE FALLEN ================== -->
+
+                        <!-- 16. KHUNG U MINH GIỚI (UMBRAL BONE) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="umbral-bone">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs><filter id="umbGlow"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter></defs>
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#a9cce3" stroke-width="3" filter="url(#umbGlow)" opacity="0.6" />
+                                <path d="M 12 60 C 20 40, 20 80, 12 60" fill="none" stroke="#eaf2f8" stroke-width="2" filter="url(#umbGlow)" />
+                                <path d="M 108 60 C 100 40, 100 80, 108 60" fill="none" stroke="#eaf2f8" stroke-width="2" filter="url(#umbGlow)" />
+                                <path d="M 60 12 C 40 20, 80 20, 60 12" fill="none" stroke="#eaf2f8" stroke-width="2" filter="url(#umbGlow)" />
+                                <path d="M 60 108 C 40 100, 80 100, 60 108" fill="none" stroke="#eaf2f8" stroke-width="2" filter="url(#umbGlow)" />
+                            </svg>
+                        </div>
+
+                        <!-- 17. KHUNG SẮT ÁC QUỶ (RHOGAR IRON) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="rhogar-iron">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <polygon points="60,10 95,25 110,60 95,95 60,110 25,95 10,60 25,25" fill="none" stroke="#2c3e50" stroke-width="5" />
+                                <polygon points="60,15 90,30 105,60 90,90 60,105 30,90 15,60 30,30" fill="none" stroke="#c0392b" stroke-width="1.5" filter="drop-shadow(0 0 3px #e74c3c)" />
+                                <polygon points="60,10 55,0 65,0" fill="#2c3e50" />
+                                <polygon points="60,110 55,120 65,120" fill="#2c3e50" />
+                                <polygon points="10,60 0,55 0,65" fill="#2c3e50" />
+                                <polygon points="110,60 120,55 120,65" fill="#2c3e50" />
+                            </svg>
+                        </div>
+
+                        <!-- 18. KHUNG KIẾN TRÚC THÁNH THẦN (RADIANT SENTINEL) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="radiant-sentinel">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs><filter id="radGlow"><feGaussianBlur stdDeviation="1.5" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter></defs>
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#ecf0f1" stroke-width="2" filter="url(#radGlow)" />
+                                <circle cx="60" cy="60" r="44" fill="none" stroke="#d4af37" stroke-width="1" />
+                                <path d="M 60 12 L 55 25 L 65 25 Z" fill="#ecf0f1" filter="url(#radGlow)" />
+                                <path d="M 60 108 L 55 95 L 65 95 Z" fill="#ecf0f1" filter="url(#radGlow)" />
+                                <path d="M 12 60 L 25 55 L 25 65 Z" fill="#ecf0f1" filter="url(#radGlow)" />
+                                <path d="M 108 60 L 95 55 L 95 65 Z" fill="#ecf0f1" filter="url(#radGlow)" />
+                                <polygon points="60,25 63,30 60,35 57,30" fill="#d4af37" />
+                                <polygon points="60,95 63,90 60,85 57,90" fill="#d4af37" />
+                            </svg>
+                        </div>
+
+                        <!-- 19. KHUNG KỴ SĨ GAI (THORN KNIGHT) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="thorn-knight">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <style>
+                                    /* Gai quấn quanh (Xoay tròn chầm chậm) */
+                                    .thorn-wrap {
+                                        transform-origin: 60px 60px;
+                                        animation: thornRotate 15s linear infinite;
+                                    }
+                                    @keyframes thornRotate {
+                                        0% { transform: rotate(0deg); }
+                                        100% { transform: rotate(360deg); }
+                                    }
+                                    
+                                    /* Tóe máu mỗi 3 giây */
+                                    .blood-splash {
+                                        transform-origin: center;
+                                        animation: bloodSpatter 3s ease-out infinite;
+                                        opacity: 0;
+                                    }
+                                    
+                                    .blood-1 { transform-origin: 20px 20px; animation-delay: 0s; }
+                                    .blood-2 { transform-origin: 100px 30px; animation-delay: 0.1s; }
+                                    .blood-3 { transform-origin: 30px 100px; animation-delay: 0.2s; }
+                                    .blood-4 { transform-origin: 90px 90px; animation-delay: 0.15s; }
+
+                                    @keyframes bloodSpatter {
+                                        0%, 70% { transform: scale(0); opacity: 0; }
+                                        75% { transform: scale(1.5); opacity: 1; }
+                                        80% { transform: scale(1.8); opacity: 0.8; }
+                                        100% { transform: scale(2); opacity: 0; }
+                                    }
+                                    
+                                    /* Chớp đỏ nhẹ trên viền khi tóe máu */
+                                    .blood-glow {
+                                        animation: borderGlow 3s ease-out infinite;
+                                    }
+                                    @keyframes borderGlow {
+                                        0%, 70% { stroke: #2a2a2a; }
+                                        75% { stroke: #8b0000; }
+                                        100% { stroke: #2a2a2a; }
+                                    }
+                                </style>
+
+                                <!-- Khung thép xám đen -->
+                                <circle cx="60" cy="60" r="45" fill="none" stroke="#2a2a2a" stroke-width="4" class="blood-glow" />
+                                <circle cx="60" cy="60" r="48" fill="none" stroke="#111111" stroke-width="2" />
+                                <circle cx="60" cy="60" r="42" fill="none" stroke="#111111" stroke-width="2" />
+                                
+                                <!-- Nhóm gai quấn quanh (Xoay tròn) -->
+                                <g class="thorn-wrap">
+                                    <!-- Dây gai -->
+                                    <path d="M 60 15 C 80 15, 95 25, 105 40 C 95 30, 75 25, 60 20 Z" fill="#3a3a3a"/>
+                                    <path d="M 105 40 C 110 60, 105 80, 90 100 C 100 85, 105 65, 95 45 Z" fill="#222222"/>
+                                    <path d="M 90 100 C 70 110, 50 110, 30 100 C 45 105, 70 105, 85 95 Z" fill="#3a3a3a"/>
+                                    <path d="M 30 100 C 15 80, 10 60, 15 40 C 20 55, 25 75, 40 90 Z" fill="#222222"/>
+                                    <path d="M 15 40 C 25 20, 45 15, 60 15 C 45 20, 30 30, 20 45 Z" fill="#3a3a3a"/>
+                                    
+                                    <!-- Gai nhọn -->
+                                    <polygon points="70,18 75,10 78,19" fill="#111"/>
+                                    <polygon points="98,35 108,32 102,40" fill="#111"/>
+                                    <polygon points="100,75 108,82 98,82" fill="#111"/>
+                                    <polygon points="75,103 72,112 68,104" fill="#111"/>
+                                    <polygon points="35,95 25,102 32,90" fill="#111"/>
+                                    <polygon points="15,65 5,62 16,55" fill="#111"/>
+                                    <polygon points="25,28 18,20 30,25" fill="#111"/>
+                                </g>
+                                
+                                <!-- Nhóm tóe máu -->
+                                <g>
+                                    <circle cx="20" cy="20" r="2" fill="#8b0000" class="blood-splash blood-1" />
+                                    <circle cx="25" cy="15" r="1.5" fill="#ff0000" class="blood-splash blood-1" />
+                                    
+                                    <circle cx="100" cy="30" r="2.5" fill="#8b0000" class="blood-splash blood-2" />
+                                    <circle cx="105" cy="35" r="1" fill="#ff0000" class="blood-splash blood-2" />
+                                    
+                                    <circle cx="30" cy="100" r="3" fill="#8b0000" class="blood-splash blood-3" />
+                                    <circle cx="25" cy="95" r="2" fill="#ff0000" class="blood-splash blood-3" />
+                                    
+                                    <circle cx="90" cy="90" r="2" fill="#8b0000" class="blood-splash blood-4" />
+                                    <circle cx="95" cy="100" r="1.5" fill="#ff0000" class="blood-splash blood-4" />
+                                </g>
+                            </svg>
+                        </div>
+
+                        <!-- 20. KHUNG KỴ SĨ HẮC ÁM (DARK CRUSADER) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="dark-crusader">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="dcGlow"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <!-- Vòng sắt dày -->
+                                <circle cx="60" cy="60" r="46" fill="none" stroke="#1c1c1c" stroke-width="8" />
+                                <circle cx="60" cy="60" r="46" fill="none" stroke="#2c2c2c" stroke-width="2" />
+                                <!-- Bốn đinh tán chữ thập -->
+                                <path d="M 60 10 L 60 20 M 55 15 L 65 15" stroke="#8b0000" stroke-width="2" filter="url(#dcGlow)"/>
+                                <path d="M 60 100 L 60 110 M 55 105 L 65 105" stroke="#8b0000" stroke-width="2" filter="url(#dcGlow)"/>
+                                <path d="M 10 60 L 20 60 M 15 55 L 15 65" stroke="#8b0000" stroke-width="2" filter="url(#dcGlow)"/>
+                                <path d="M 100 60 L 110 60 M 105 55 L 105 65" stroke="#8b0000" stroke-width="2" filter="url(#dcGlow)"/>
+                                <!-- Lưới xích nhỏ -->
+                                <circle cx="60" cy="60" r="40" fill="none" stroke="#111" stroke-width="1" stroke-dasharray="2 2" />
+                            </svg>
+                        </div>
+
+                        <!-- 21. KHUNG TẾ TIÊN U MINH (UMBRAL PRIEST) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="umbral-priest">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="upGlow"><feGaussianBlur stdDeviation="3" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <!-- Vòng xương mờ -->
+                                <circle cx="60" cy="60" r="45" fill="none" stroke="#dcdcdc" stroke-width="3" opacity="0.8" />
+                                <!-- Xúc tu u minh (màu xanh cyan) -->
+                                <path d="M 15 60 Q 25 40 35 60 T 55 60" fill="none" stroke="#00ffcc" stroke-width="1.5" filter="url(#upGlow)" opacity="0.7"/>
+                                <path d="M 105 60 Q 95 80 85 60 T 65 60" fill="none" stroke="#00ffcc" stroke-width="1.5" filter="url(#upGlow)" opacity="0.7"/>
+                                <path d="M 60 15 Q 40 25 60 35 T 60 55" fill="none" stroke="#00ffcc" stroke-width="1.5" filter="url(#upGlow)" opacity="0.7"/>
+                                <path d="M 60 105 Q 80 95 60 85 T 60 65" fill="none" stroke="#00ffcc" stroke-width="1.5" filter="url(#upGlow)" opacity="0.7"/>
+                                <!-- Mắt quỷ ở 4 góc -->
+                                <ellipse cx="28" cy="28" rx="4" ry="2" fill="#000" stroke="#00ffcc" stroke-width="1" transform="rotate(45 28 28)"/>
+                                <ellipse cx="92" cy="28" rx="4" ry="2" fill="#000" stroke="#00ffcc" stroke-width="1" transform="rotate(-45 92 28)"/>
+                                <ellipse cx="28" cy="92" rx="4" ry="2" fill="#000" stroke="#00ffcc" stroke-width="1" transform="rotate(-45 28 92)"/>
+                                <ellipse cx="92" cy="92" rx="4" ry="2" fill="#000" stroke="#00ffcc" stroke-width="1" transform="rotate(45 92 92)"/>
+                            </svg>
+                        </div>
+
+                        <!-- 22. KHUNG CHIẾN BINH RHOGAR (RHOGAR WARRIOR) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="rhogar-warrior">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="rwGlow"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <!-- Vòng dung nham nứt nẻ -->
+                                <circle cx="60" cy="60" r="46" fill="none" stroke="#1a0505" stroke-width="6" />
+                                <path d="M 15 55 L 25 65 L 30 50 M 90 60 L 100 50 L 105 70 M 60 15 L 70 25 L 50 30 M 55 105 L 65 95 L 70 110" fill="none" stroke="#ff4500" stroke-width="2" filter="url(#rwGlow)"/>
+                                <path d="M 15 55 L 25 65 L 30 50 M 90 60 L 100 50 L 105 70 M 60 15 L 70 25 L 50 30 M 55 105 L 65 95 L 70 110" fill="none" stroke="#ff8c00" stroke-width="1" />
+                                <!-- Đá obsidian nhô ra -->
+                                <polygon points="12,60 5,55 8,70" fill="#0a0000" />
+                                <polygon points="108,60 115,65 112,50" fill="#0a0000" />
+                                <polygon points="60,12 65,5 50,8" fill="#0a0000" />
+                                <polygon points="60,108 55,115 70,112" fill="#0a0000" />
+                            </svg>
+                        </div>
+
+                        <!-- 23. KHUNG KỴ SĨ ÁNH SÁNG (RADIANT VANGUARD) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="radiant-vanguard">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="rvGlow"><feGaussianBlur stdDeviation="1.5" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <!-- Khung vàng kim loại -->
+                                <circle cx="60" cy="60" r="44" fill="none" stroke="#2c2a20" stroke-width="4" />
+                                <circle cx="60" cy="60" r="44" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.6"/>
+                                <!-- Kiến trúc Gothic chóp nhọn -->
+                                <path d="M 60 8 L 52 20 L 68 20 Z" fill="#1a1a1a" stroke="#d4af37" stroke-width="1" filter="url(#rvGlow)"/>
+                                <path d="M 60 112 L 52 100 L 68 100 Z" fill="#1a1a1a" stroke="#d4af37" stroke-width="1" filter="url(#rvGlow)"/>
+                                <path d="M 8 60 L 20 52 L 20 68 Z" fill="#1a1a1a" stroke="#d4af37" stroke-width="1" filter="url(#rvGlow)"/>
+                                <path d="M 112 60 L 100 52 L 100 68 Z" fill="#1a1a1a" stroke="#d4af37" stroke-width="1" filter="url(#rvGlow)"/>
+                                <!-- Vòng hào quang bên ngoài -->
+                                <circle cx="60" cy="60" r="50" fill="none" stroke="#ecf0f1" stroke-width="0.5" stroke-dasharray="4 8" filter="url(#rvGlow)" opacity="0.8"/>
+                            </svg>
+                        </div>
+
+                        <!-- 24. KHUNG VỆ BINH ĐỌA ĐÀY (FALLEN SENTINEL) -->
+                        <div class="id-item-border relative w-full h-full aspect-square bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-md flex justify-center items-center group overflow-hidden ring-2 ring-transparent transition" data-url="fallen-sentinel">
+                            <img src="https://placehold.co/100x100/0d1117/30363d?text=User" class="absolute w-16 h-16 rounded-full opacity-50 z-0 pointer-events-none">
+                            <svg viewBox="0 0 120 120" class="absolute inset-0 w-full h-full z-10 scale-125 pointer-events-none">
+                                <defs>
+                                    <filter id="fsGlow"><feGaussianBlur stdDeviation="2" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" /></filter>
+                                </defs>
+                                <!-- Vòng sắt gỉ sét -->
+                                <circle cx="60" cy="60" r="46" fill="none" stroke="#2b2b2b" stroke-width="6" />
+                                <circle cx="60" cy="60" r="46" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="10 4" />
+                                <!-- Xiềng xích đứt gãy -->
+                                <path d="M 10 30 Q 25 40 18 55 M 110 90 Q 95 80 102 65" fill="none" stroke="#4a4a4a" stroke-width="3" stroke-linecap="round"/>
+                                <path d="M 10 30 Q 25 40 18 55 M 110 90 Q 95 80 102 65" fill="none" stroke="#111" stroke-width="1" stroke-linecap="round"/>
+                                <!-- Vết máu khô rỉ xuống -->
+                                <path d="M 50 14 L 52 25 L 55 14 Z M 70 14 L 68 28 L 65 14 Z M 40 100 L 42 110 L 45 98 Z" fill="#4a0000" />
+                                <circle cx="52" cy="30" r="1.5" fill="#8b0000" />
+                                <circle cx="68" cy="33" r="1" fill="#8b0000" />
+                                <circle cx="42" cy="113" r="1.5" fill="#8b0000" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Cờ Hiệu -->
+                <div id="content-id-banner" class="flex-1 overflow-y-auto mt-4 pr-2 custom-scrollbar hidden">
+                    <div class="grid grid-cols-4 gap-4">
+                        <!-- 0. CỜ HIỆU LƯU ĐÀY (MẶC ĐỊNH) - Đơn giản, tinh tế -->
+                        <div class="id-item-banner relative w-full aspect-[2/3] bg-[#161b22] border border-transparent hover:border-gray-500 cursor-pointer rounded-t-md group flex flex-col transition-all ring-2 ring-transparent" data-url="">
+                            <!-- Nền Cờ -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-[#1e2329] to-[#0d1117]" 
+                                 style="clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 95%, 0 100%);">
+                            </div>
+                            <div class="absolute bottom-2 inset-x-0 text-center text-[10px] text-gray-500 font-bold uppercase z-20">Mặc Định</div>
+                        </div>
+
+                        <!-- 1. CỜ HIỆU DEMACIA TRỖI DẬY (Xanh Navy & Vàng Hoàng Kim) -->
+                        <div class="id-item-banner relative w-full aspect-[2/3] bg-[#0b1426] border border-transparent hover:border-[#d4af37] cursor-pointer rounded-t-md overflow-hidden group transition-all ring-2 ring-transparent" data-url="demacia">
+                            <!-- Nền -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-[#0a101d] via-[#101b33] to-[#060a14]"></div>
+                            <!-- Họa tiết Demacia (Kiếm và Cánh kim loại) -->
+                            <svg viewBox="0 0 100 50" class="absolute bottom-0 w-full h-auto z-10 drop-shadow-[0_-2px_5px_rgba(212,175,55,0.3)]">
+                                <!-- Khung viền vàng -->
+                                <path d="M 0 30 C 30 50, 70 50, 100 30 L 100 50 L 0 50 Z" fill="#b59335"/>
+                                <path d="M 0 35 C 30 55, 70 55, 100 35 L 100 50 L 0 50 Z" fill="#0b1426"/>
+                                <!-- Lưỡi kiếm trung tâm -->
+                                <polygon points="48,10 52,10 55,40 50,50 45,40" fill="#e0e6ed"/>
+                                <polygon points="50,10 52,10 55,40 50,50" fill="#a0aab5"/>
+                                <!-- Chuôi kiếm & Cánh vàng -->
+                                <path d="M 35 30 L 45 25 L 50 35 L 55 25 L 65 30 L 50 45 Z" fill="#d4af37"/>
+                                <!-- Viền bạc 2 bên -->
+                                <path d="M 0 15 C 15 30, 25 40, 40 35 L 0 50 Z" fill="#8c99a6" opacity="0.8"/>
+                                <path d="M 100 15 C 85 30, 75 40, 60 35 L 100 50 Z" fill="#8c99a6" opacity="0.8"/>
+                            </svg>
+                            <div class="absolute top-4 inset-x-0 text-center text-[10px] text-[#d4af37] font-bold uppercase z-20">Demacia</div>
+                        </div>
+
+                        <!-- 2. CỜ HIỆU CHÀO MỪNG ĐẾN NOXUS (Đỏ Máu & Rìu Đen) -->
+                        <div class="id-item-banner relative w-full aspect-[2/3] bg-[#1a0505] border border-transparent hover:border-[#ff0000] cursor-pointer rounded-t-md overflow-hidden group transition-all ring-2 ring-transparent" data-url="noxus">
+                            <div class="absolute inset-0 bg-gradient-to-b from-[#110202] via-[#2a0808] to-[#0a0000]"></div>
+                            <svg viewBox="0 0 100 50" class="absolute bottom-0 w-full h-auto z-10 drop-shadow-[0_-3px_8px_rgba(220,20,60,0.5)]">
+                                <!-- Lưỡi rìu thép đen -->
+                                <path d="M 0 20 Q 25 50 50 40 Q 75 50 100 20 L 100 50 L 0 50 Z" fill="#1c1c1c"/>
+                                <path d="M 0 25 Q 25 55 50 45 Q 75 55 100 25 L 100 50 L 0 50 Z" fill="#2c2c2c"/>
+                                <!-- Biểu tượng Noxus Đỏ -->
+                                <polygon points="45,20 55,20 60,35 50,50 40,35" fill="#8b0000"/>
+                                <polygon points="50,20 55,20 60,35 50,50" fill="#dc143c"/>
+                                <!-- Gai nhọn 2 bên -->
+                                <polygon points="10,25 20,40 15,45" fill="#4a4a4a"/>
+                                <polygon points="90,25 80,40 85,45" fill="#4a4a4a"/>
+                            </svg>
+                            <div class="absolute top-4 inset-x-0 text-center text-[10px] text-[#dc143c] font-bold uppercase z-20">Noxus</div>
+                        </div>
+
+                        <!-- 3. CỜ HIỆU VIEGO QUÂN VƯƠNG (Lục Lam Hắc Ám & Vương Miện Vỡ) -->
+                        <div class="id-item-banner relative w-full aspect-[2/3] bg-[#051114] border border-transparent hover:border-[#00ffcc] cursor-pointer rounded-t-md overflow-hidden group transition-all ring-2 ring-transparent" data-url="viego">
+                            <div class="absolute inset-0 bg-gradient-to-b from-[#02080a] via-[#0a1f24] to-[#000000]"></div>
+                            <!-- Sương mù đen mờ -->
+                            <div class="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-[#00ffcc]/10 to-transparent"></div>
+                            <svg viewBox="0 0 100 50" class="absolute bottom-0 w-full h-auto z-10 drop-shadow-[0_-2px_10px_rgba(0,255,204,0.4)]">
+                                <!-- Dây xích 2 bên -->
+                                <path d="M 0 10 Q 20 40 40 45 L 0 50 Z" fill="none" stroke="#2c3e50" stroke-width="2" stroke-dasharray="3 1"/>
+                                <path d="M 100 10 Q 80 40 60 45 L 100 50 Z" fill="none" stroke="#2c3e50" stroke-width="2" stroke-dasharray="3 1"/>
+                                <!-- Vương miện lục lam vỡ -->
+                                <polygon points="35,30 42,45 50,35 58,45 65,30 50,50" fill="#00b396"/>
+                                <polygon points="42,45 50,35 58,45 50,50" fill="#00ffcc"/>
+                                <!-- Lõi ma thuật hồng ngọc (giữa vương miện) -->
+                                <polygon points="48,40 52,40 50,45" fill="#ff007f"/>
+                            </svg>
+                            <div class="absolute top-4 inset-x-0 text-center text-[10px] text-[#00ffcc] font-bold uppercase z-20">Quân Vương</div>
+                        </div>
+
+                        <!-- 4. CỜ HIỆU THỢ SĂN TÀN NHẪN (HALL OF LEGENDS - Đỏ/Đen/Vàng) -->
+                        <div class="id-item-banner relative w-full aspect-[2/3] bg-[#140505] border border-transparent hover:border-[#c8aa6e] cursor-pointer rounded-t-md overflow-hidden group transition-all ring-2 ring-transparent" data-url="faker">
+                            <div class="absolute inset-0 bg-gradient-to-b from-[#1a0a0a] via-[#330000] to-[#0a0000]"></div>
+                            <svg viewBox="0 0 100 50" class="absolute bottom-0 w-full h-auto z-10 drop-shadow-[0_-2px_5px_rgba(200,170,110,0.5)]">
+                                <!-- Khung cánh dơi quỷ -->
+                                <path d="M 0 20 Q 30 55 50 35 Q 70 55 100 20 L 100 50 L 0 50 Z" fill="#0a0000"/>
+                                <path d="M 0 25 Q 30 60 50 40 Q 70 60 100 25 L 100 50 L 0 50 Z" fill="#8b0000"/>
+                                <!-- Biểu tượng Faker/Quỷ vương kim loại vàng -->
+                                <polygon points="40,25 50,15 60,25 55,45 45,45" fill="#a6843c"/>
+                                <polygon points="50,15 60,25 55,45 50,40" fill="#c8aa6e"/>
+                                <polygon points="47,30 53,30 50,35" fill="#000"/> <!-- Mắt quỷ -->
+                            </svg>
+                            <div class="absolute top-4 inset-x-0 text-center text-[10px] text-[#c8aa6e] font-bold uppercase z-20">Huyền Thoại</div>
+                        </div>
+
+                        <!-- 5. CỜ HIỆU ARCANE JINX VỤN VỠ (Neon Punk Graffiti) -->
+                        <div class="id-item-banner relative w-full aspect-[2/3] bg-[#0c0914] border border-transparent hover:border-[#ff00a0] cursor-pointer rounded-t-md overflow-hidden group transition-all ring-2 ring-transparent" data-url="jinx">
+                            <div class="absolute inset-0 bg-gradient-to-b from-[#110c1c] via-[#1a122e] to-[#05030a]"></div>
+                            <!-- Vết xước ánh sáng -->
+                            <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-[#00ffff]/10 to-transparent transform -skew-x-12"></div>
+                            <svg viewBox="0 0 100 50" class="absolute bottom-0 w-full h-auto z-10">
+                                <!-- Viền răng cưa hỗn loạn -->
+                                <polyline points="0,30 15,45 30,35 50,50 70,30 85,45 100,20 100,50 0,50" fill="none" stroke="#ff00a0" stroke-width="2" filter="drop-shadow(0 0 3px #ff00a0)"/>
+                                <polyline points="0,35 15,50 30,40 50,55 70,35 85,50 100,25" fill="none" stroke="#00ffff" stroke-width="1.5" filter="drop-shadow(0 0 3px #00ffff)"/>
+                                <!-- Graffiti X và Nụ cười -->
+                                <path d="M 20 20 L 30 30 M 30 20 L 20 30" stroke="#ff00a0" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M 70 20 L 80 30 M 80 20 L 70 30" stroke="#ff00a0" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M 35 40 Q 50 50 65 40" fill="none" stroke="#00ffff" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <div class="absolute top-4 inset-x-0 text-center text-[10px] text-[#ff00a0] font-bold uppercase z-20 tracking-widest">Arcane</div>
+                        </div>
+
+                        <!-- 6. CỜ HIỆU KỴ SĨ GAI (THORN KNIGHT) -->
+                        <div class="id-item-banner relative w-full aspect-[2/3] bg-[#0d0d0d] border border-transparent hover:border-[#555] cursor-pointer rounded-t-md overflow-hidden group transition-all ring-2 ring-transparent" data-url="thorn-knight">
+                            <!-- Nền xám đen -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-[#0d0d0d] to-[#000000]"></div>
+                            
+                            <!-- Vết xước kim loại -->
+                            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/scratched-metal.png')] opacity-10 pointer-events-none"></div>
+
+                            <svg viewBox="0 0 100 50" class="absolute bottom-0 w-full h-auto z-10 drop-shadow-[0_-2px_5px_rgba(50,50,50,0.8)]">
+                                <!-- Khiên thép hiệp sĩ -->
+                                <path d="M 35 10 L 65 10 L 65 30 C 65 40, 50 48, 50 48 C 50 48, 35 40, 35 30 Z" fill="#2a2a2a" stroke="#111" stroke-width="2"/>
+                                <path d="M 35 10 L 50 15 L 65 10 L 65 30 C 65 40, 50 48, 50 48 C 50 48, 35 40, 35 30 Z" fill="#3a3a3a"/>
+                                <!-- Dấu thập trên khiên -->
+                                <path d="M 48 15 L 52 15 L 52 40 L 48 40 Z" fill="#111"/>
+                                <path d="M 40 22 L 60 22 L 60 26 L 40 26 Z" fill="#111"/>
+
+                                <!-- Dây gai quấn -->
+                                <path d="M 0 35 Q 25 25 50 35 Q 75 45 100 35" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+                                <path d="M 0 45 Q 25 55 50 45 Q 75 35 100 45" fill="none" stroke="#222" stroke-width="3"/>
+                                
+                                <!-- Các gai nhỏ -->
+                                <polygon points="10,32 12,25 15,31" fill="#111"/>
+                                <polygon points="30,29 28,22 34,28" fill="#111"/>
+                                <polygon points="70,39 68,30 74,38" fill="#111"/>
+                                <polygon points="90,37 92,30 95,36" fill="#111"/>
+                                <polygon points="20,49 22,42 25,48" fill="#111"/>
+                                <polygon points="80,41 78,35 84,40" fill="#111"/>
+                            </svg>
+                            <div class="absolute top-4 inset-x-0 text-center text-[10px] text-[#777] font-bold uppercase z-20">Kỵ Sĩ Gai</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Area -->
+                <div class="mt-4 pt-4 flex justify-end gap-3 flex-shrink-0">
+                    <button id="btn-cancel-identity" class="px-4 py-1.5 text-sm text-gray-400 hover:text-white font-medium transition">Hủy</button>
+                    <button id="btn-save-identity" class="px-6 py-1.5 bg-[#c8aa6e] hover:bg-[#b39556] text-[#0a0a0c] text-sm uppercase font-bold rounded shadow-lg transition flex items-center gap-2">
+                        <svg class="w-4 h-4 hidden animate-spin text-[#0a0a0c]" id="spinner-save-identity" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        Trang Bị
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center transition-opacity">
+        <div class="bg-[#161b22] border border-[#30363d] rounded-lg w-full max-w-md p-6 shadow-xl">
+            <h2 class="text-lg font-semibold text-white mb-4">Chỉnh sửa Hồ sơ</h2>
+            
+            <div id="edit-error" class="hidden mb-4 bg-red-900/30 border border-red-500/50 text-red-400 p-3 rounded-md text-sm"></div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Tên hiển thị (Full Name)</label>
+                    <input type="text" id="editFullName" class="w-full bg-[#0d1117] border border-[#30363d] text-white px-3 py-2 rounded-md focus:outline-none focus:border-purple-500 transition">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Tiểu sử (Bio)</label>
+                    <textarea id="editBio" rows="3" placeholder="Sinh viên CNTT..." class="w-full bg-[#0d1117] border border-[#30363d] text-white px-3 py-2 rounded-md focus:outline-none focus:border-purple-500 transition"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Ảnh đại diện (Tải file)</label>
+                    <input type="file" id="editAvatarFile" accept="image/png, image/jpeg" class="block w-full text-sm text-[#8b949e] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#21262d] file:text-purple-400 hover:file:bg-[#30363d] transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Ảnh bìa (Tải file)</label>
+                    <input type="file" id="editCoverFile" accept="image/png, image/jpeg" class="block w-full text-sm text-[#8b949e] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#21262d] file:text-green-400 hover:file:bg-[#30363d] transition">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 mt-6">
+                <button id="btn-cancel-edit" class="text-[#8b949e] hover:text-white px-4 py-2 text-sm font-medium transition">Hủy</button>
+                <button id="btn-save-edit" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md font-medium text-sm transition">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Edit Project Modal -->
+    <div id="quickEditProjectModal" class="fixed inset-0 bg-black/70 hidden z-50 flex items-center justify-center transition-opacity">
+        <div class="bg-[#161b22] border border-[#30363d] rounded-lg w-full max-w-lg p-6 shadow-xl">
+            <h2 class="text-lg font-semibold text-white mb-4">Sửa Nhanh Đồ Án</h2>
+            
+            <div id="edit-proj-error" class="hidden mb-4 bg-red-900/30 border border-red-500/50 text-red-400 p-3 rounded-md text-sm"></div>
+
+            <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                <input type="hidden" id="editProjId">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Tên Dự Án (Title) <span class="text-red-500">*</span></label>
+                    <input type="text" id="editProjTitle" required class="w-full bg-[#0d1117] border border-[#30363d] text-white px-3 py-2 rounded-md focus:outline-none focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] transition">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Mô tả (Description)</label>
+                    <textarea id="editProjDesc" rows="4" class="w-full bg-[#0d1117] border border-[#30363d] text-white px-3 py-2 rounded-md focus:outline-none focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] transition"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Lãnh Địa (Danh mục)</label>
+                    <div id="edit-proj-categories" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <!-- Render from JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 mt-6">
+                <button id="btn-cancel-edit-proj" class="text-[#8b949e] hover:text-white px-4 py-2 text-sm font-medium transition">Hủy</button>
+                <button id="btn-save-edit-proj" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md font-medium text-sm transition">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="profile.js"></script>
+</body>
+</html>
+
