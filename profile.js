@@ -657,7 +657,7 @@ function renderPinnedProjects(projects, isMyProfile = false) {
             </button>`;
         }
 
-        const thumbnailUrl = p.thumbnailUrl ? `${API_BASE_URL.replace('/api', '')}${p.thumbnailUrl}` : 'https://placehold.co/400x200/161b22/8b949e?text=No+Image';
+        const thumbnailUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `${API_BASE_URL.replace('/api', '')}${p.thumbnailUrl}`) : 'https://placehold.co/400x200/161b22/8b949e?text=No+Image';
 
         html += `
         <div class="relative border border-[#30363d] rounded-md bg-[#0d1117] flex flex-col group hover:border-purple-500 transition duration-300 overflow-hidden" data-project-id="${p.id}">
@@ -953,7 +953,7 @@ function renderProjectsList(projects, containerId) {
     }
 
     projects.forEach(p => {
-        const thumbUrl = p.thumbnailUrl ? `https://bonfirecode-api.onrender.com${p.thumbnailUrl}` : 'https://placehold.co/600x400/21262d/8b949e?text=No+Image';
+        const thumbUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `https://bonfirecode-api.onrender.com${p.thumbnailUrl}`) : 'https://placehold.co/600x400/21262d/8b949e?text=No+Image';
         const card = document.createElement('div');
         card.className = "bg-[#161b22] border border-[#30363d] rounded-xl overflow-hidden hover:border-[#8b949e] transition flex flex-col group relative";
 

@@ -130,7 +130,7 @@ async function loadProjectDetail(id) {
         document.getElementById('dt-date').textContent = new Date(p.createdAt).toLocaleDateString('vi-VN');
         document.getElementById('dt-desc').textContent = p.description || 'Không có mô tả.';
         
-        const imgUrl = p.thumbnailUrl ? `https://bonfirecode-api.onrender.com${p.thumbnailUrl}` : 'https://placehold.co/1200x600/222/ea580c?text=No+Image';
+        const imgUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `https://bonfirecode-api.onrender.com${p.thumbnailUrl}`) : 'https://placehold.co/1200x600/222/ea580c?text=No+Image';
         document.getElementById('dt-image').src = imgUrl;
         
         document.getElementById('btn-download').href = `https://bonfirecode-api.onrender.com${p.sourceCodeUrl}`;

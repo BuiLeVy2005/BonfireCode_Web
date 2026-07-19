@@ -311,7 +311,7 @@ function renderProjects(projects) {
         const card = document.createElement('div');
         card.className = 'bg-[#0d1117] rounded-md overflow-hidden border border-[#30363d] hover:border-purple-500 transition duration-300 flex flex-col md:flex-row group w-full';
         
-        const imgUrl = p.thumbnailUrl ? `https://bonfirecode-api.onrender.com${p.thumbnailUrl}` : 'https://placehold.co/600x400/222/ea580c?text=No+Image';
+        const imgUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `https://bonfirecode-api.onrender.com${p.thumbnailUrl}`) : 'https://placehold.co/600x400/222/ea580c?text=No+Image';
 
         card.innerHTML = `
             <a href="detail.html?id=${p.id}" class="block w-full md:w-[220px] h-32 md:h-auto overflow-hidden shrink-0 border-r border-[#30363d]">

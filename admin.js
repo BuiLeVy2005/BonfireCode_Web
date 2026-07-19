@@ -348,8 +348,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         projects.forEach(p => {
             const imgUrl = p.thumbnailUrl 
-                            ? `https://bonfirecode-api.onrender.com${p.thumbnailUrl}` 
-                            : 'https://placehold.co/600x400/161b22/30363d?text=No+Image';
+                            ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `https://bonfirecode-api.onrender.com${p.thumbnailUrl}`) 
+                            : 'https://placehold.co/600x400/222/ea580c?text=No+Image';
                             
             const authorAvatar = p.authorAvatarUrl ? `https://bonfirecode-api.onrender.com${p.authorAvatarUrl}` : `https://ui-avatars.com/api/?name=${p.authorName}&background=random`;
 
