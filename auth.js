@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const btn = document.getElementById('btn-reg-submit');
         btn.disabled = true;
-        btn.textContent = "�ang t?o t�i kho?n...";
+        btn.textContent = "Đang tạo tài khoản...";
         errorBox.classList.add('hidden');
 
         const payload = {
@@ -112,9 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(text || "Lỗi đăng ký.");
             }
 
-            // � ăng ký thành công thì chuyển sang tab login
+            // Đăng ký thành công thì chuyển sang tab login
             errorBox.className = "mb-4 bg-green-900/30 border border-green-500/50 text-green-400 p-3 rounded text-sm";
-            errorBox.textContent = "� ăng ký thành công! Hãy đăng nhập.";
+            errorBox.textContent = "Đăng ký thành công! Hãy đăng nhập.";
             errorBox.classList.remove('hidden');
             
             setTimeout(() => {
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const btn = document.getElementById('btn-forgot-step1');
         btn.disabled = true;
-        btn.textContent = "�ang gửi...";
+        btn.textContent = "Đang gửi...";
         errorBox.classList.add('hidden');
 
         const email = document.getElementById('forgot-email').value;
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!res.ok) {
                 const text = await res.text();
-                throw new Error(text || "L?i gửi y�u c?u.");
+                throw new Error(text || "Lỗi gửi yêu cầu.");
             }
 
             const data = await res.json();
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formForgotStep2.classList.remove('hidden');
             
             errorBox.className = "mb-4 bg-green-900/30 border border-green-500/50 text-green-400 p-3 rounded text-sm";
-            errorBox.textContent = "M� OTP d� du?c gửi d?n email của bạn.";
+            errorBox.textContent = "Mã OTP đã được gửi đến email của bạn.";
             errorBox.classList.remove('hidden');
 
         } catch (err) {
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
             errorBox.classList.remove('hidden');
         } finally {
             btn.disabled = false;
-            btn.textContent = "Nh?n m� OTP";
+            btn.textContent = "Nhận mã OTP";
         }
     });
 
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const btn = document.getElementById('btn-forgot-step2');
         btn.disabled = true;
-        btn.textContent = "�ang x? l�...";
+        btn.textContent = "Đang xử lý...";
         errorBox.classList.add('hidden');
 
         const payload = {
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             setTimeout(() => {
                 btnBackToLogin.click();
-            }, 2000);
+            errorBox.textContent = "Khôi phục mật khẩu thành công. Vui lòng đăng nhập lại.";
 
         } catch (err) {
             errorBox.className = "mb-4 bg-red-900/30 border border-red-500/50 text-red-400 p-3 rounded text-sm";
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             btn.disabled = false;
             btn.textContent = "X�c nh?n d?i m?t kh?u";
-        }
+            btn.textContent = "Khôi phục mật khẩu";
     });
 });
 
