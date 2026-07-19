@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
+﻿const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
 let userProjects = []; // Add global scope for userProjects
 let userRankId = 1;
 
@@ -17,7 +17,7 @@ function applyBanner(targetElement, bannerUrl) {
     existing.forEach(el => el.remove());
 
     if (!bannerUrl) {
-        targetElement.style.backgroundImage = "url('https://placehold.co/300x500/0d1117/30363d?text=Banner')";
+        targetElement.style.backgroundImage = "url('assets/images/BG.jpg')";
         return;
     }
 
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 const avatarEl = document.getElementById('profile-avatar');
                 if (avatarEl) {
-                    avatarEl.src = profileData.avatarUrl ? `${API_BASE_URL.replace('/api', '')}${profileData.avatarUrl}` : 'https://placehold.co/100x100/161b22/8b949e?text=U';
+                    avatarEl.src = profileData.avatarUrl ? `${API_BASE_URL.replace('/api', '')}${profileData.avatarUrl}` : 'assets/images/avata.jpg';
                 }
                 
                 const coverEl = document.getElementById('profile-cover');
@@ -1171,7 +1171,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     prevAvatar.src = profileAvatarEl.src; // Use resolved absolute URL for display
                     currentAvatarUrl = avatarSrc.replace('https://bonfirecode-api.onrender.com', '');
                 } else {
-                    prevAvatar.src = 'https://placehold.co/200x200/161b22/c8aa6e?text=Avatar';
+                    prevAvatar.src = 'assets/images/avata.jpg';
                     currentAvatarUrl = null;
                 }
             }
@@ -1355,7 +1355,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             newImg.alt = "Custom Avatar";
                             newImg.className = "id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-[#c8aa6e]";
                             newImg.setAttribute('data-url', url);
-                            newImg.onerror = function() { this.src='https://placehold.co/100x100/0d1117/30363d?text=Avatar'; };
+                            newImg.onerror = function() { this.src='assets/images/avata.jpg'; };
                             
                             newImg.addEventListener('click', (ev) => {
                                 currentAvatarUrl = url;
@@ -1501,3 +1501,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+

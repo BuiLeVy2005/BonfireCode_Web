@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
+﻿const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
 
 document.addEventListener('DOMContentLoaded', () => {
     const tabLogin = document.getElementById('tab-login');
@@ -219,3 +219,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
