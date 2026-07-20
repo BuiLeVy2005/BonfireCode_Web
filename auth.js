@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
             
             // Show OTP for testing
-            alert(`[DEV TEST] M� OTP của bạn l�: ${data.otp || data.OTP}`);
+            alert(`[DEV TEST] Mã OTP của bạn là: ${data.otp || data.OTP}`);
 
             formForgotStep1.classList.add('hidden');
             formForgotStep2.classList.remove('hidden');
@@ -202,12 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             errorBox.className = "mb-4 bg-green-900/30 border border-green-500/50 text-green-400 p-3 rounded text-sm";
-            errorBox.textContent = "�?i m?t kh?u th�nh c�ng! Vui l�ng dĐăng nhập l?i.";
+            errorBox.textContent = "Khôi phục mật khẩu thành công. Vui lòng đăng nhập lại.";
             errorBox.classList.remove('hidden');
             
             setTimeout(() => {
                 btnBackToLogin.click();
-            errorBox.textContent = "Khôi phục mật khẩu thành công. Vui lòng đăng nhập lại.";
+            }, 2000);
 
         } catch (err) {
             errorBox.className = "mb-4 bg-red-900/30 border border-red-500/50 text-red-400 p-3 rounded text-sm";
@@ -215,8 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
             errorBox.classList.remove('hidden');
         } finally {
             btn.disabled = false;
-            btn.textContent = "X�c nh?n d?i m?t kh?u";
             btn.textContent = "Khôi phục mật khẩu";
+        }
     });
 });
+
 
