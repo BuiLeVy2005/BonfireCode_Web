@@ -315,7 +315,7 @@ function renderProjects(projects) {
 
         card.innerHTML = `
             <a href="detail.html?id=${p.id}" class="block w-full md:w-[220px] h-32 md:h-auto overflow-hidden shrink-0 border-r border-[#30363d]">
-                <img src="${imgUrl}" alt="${p.title}" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
+                <img src="${imgUrl}" alt="${p.title}" onerror="this.src='https://placehold.co/600x400/222/ea580c?text=No+Image'" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500">
             </a>
             <div class="p-4 flex flex-col justify-between flex-grow">
                 <div>
