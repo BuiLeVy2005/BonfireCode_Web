@@ -2,8 +2,9 @@ const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
 function getFullImageUrl(url) {
     if (!url) return '';
     if (url.startsWith('http')) return url;
-    return "https://bonfirecode-api.onrender.com" + url;
+    return 'https://bonfirecode-api.onrender.com' + url;
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Kiểm tra Token để đổi nút Login/Logout
@@ -396,4 +397,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-

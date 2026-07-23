@@ -2,8 +2,9 @@ const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
 function getFullImageUrl(url) {
     if (!url) return '';
     if (url.startsWith('http')) return url;
-    return "https://bonfirecode-api.onrender.com" + url;
+    return 'https://bonfirecode-api.onrender.com' + url;
 }
+
 
 const showToast = (msg, type = 'success') => {
     const container = document.getElementById('toast-container');
@@ -459,4 +460,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchStats();
     fetchUsers();
 });
-
