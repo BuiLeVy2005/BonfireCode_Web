@@ -1,4 +1,9 @@
 const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
+function getFullImageUrl(url) {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return "https://bonfirecode-api.onrender.com" + url;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Kiểm tra Token để đổi nút Login/Logout
@@ -47,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }).then(res => res.json()).then(data => {
                 if (data.avatarUrl) {
                     const navAvatar = document.querySelector('#btn-avatar-dropdown img');
-                    if (navAvatar) navAvatar.src = `https://bonfirecode-api.onrender.com${data.avatarUrl}`;
+                    if (navAvatar) navAvatar.src = `${getFullImageUrl(data.avatarUrl)}`;
                 }
             }).catch(e => console.error(e));
         } catch(e) { 
@@ -117,7 +122,7 @@ async function loadProjectDetail(id) {
         document.getElementById('dt-author').innerHTML = p.authorName + (p.authorName === 'LordAdmin' ? ' <i class="fa-solid fa-crown text-fire ml-1 text-xs" title="Admin"></i>' : '');
         
         // Cập nhật Avatar của tác giả
-        const authorAvatarUrl = p.authorAvatarUrl ? `https://bonfirecode-api.onrender.com${p.authorAvatarUrl}` : 'https://placehold.co/100x100/161b22/8b949e?text=A';
+        const authorAvatarUrl = p.authorAvatarUrl ? `${getFullImageUrl(p.authorAvatarUrl)}` : 'https://placehold.co/100x100/161b22/8b949e?text=A';
         const dtAuthorAvatar = document.getElementById('dt-author-avatar');
         if (dtAuthorAvatar) dtAuthorAvatar.src = authorAvatarUrl;
         
@@ -130,10 +135,10 @@ async function loadProjectDetail(id) {
         document.getElementById('dt-date').textContent = new Date(p.createdAt).toLocaleDateString('vi-VN');
         document.getElementById('dt-desc').textContent = p.description || 'Không có mô tả.';
         
-        const imgUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `https://bonfirecode-api.onrender.com${p.thumbnailUrl}`) : 'https://placehold.co/1200x600/222/ea580c?text=No+Image';
+        const imgUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `${getFullImageUrl(p.thumbnailUrl)}`) : 'https://placehold.co/1200x600/222/ea580c?text=No+Image';
         document.getElementById('dt-image').src = imgUrl;
         
-        document.getElementById('btn-download').href = `https://bonfirecode-api.onrender.com${p.sourceCodeUrl}`;
+        document.getElementById('btn-download').href = `${getFullImageUrl(p.sourceCodeUrl)}`;
 
         const btnDownload = document.getElementById('btn-download');
         if (btnDownload) {
@@ -309,9 +314,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.getElementById('popup-followers').textContent = data.followersCount;
                         document.getElementById('popup-following').textContent = data.followingCount;
                         
-                        const avatarUrl = data.avatarUrl ? `https://bonfirecode-api.onrender.com${data.avatarUrl}` : 'https://placehold.co/100x100/161b22/8b949e?text=U';
+                        const avatarUrl = data.avatarUrl ? `${getFullImageUrl(data.avatarUrl)}` : 'https://placehold.co/100x100/161b22/8b949e?text=U';
                         document.getElementById('popup-avatar').src = avatarUrl;
-                        const coverUrl = data.coverUrl ? `https://bonfirecode-api.onrender.com${data.coverUrl}` : 'https://placehold.co/600x200/222/ea580c?text=Cover';
+                        const coverUrl = data.coverUrl ? `${getFullImageUrl(data.coverUrl)}` : 'https://placehold.co/600x200/222/ea580c?text=Cover';
                         document.getElementById('popup-cover').src = coverUrl;
 
                         // Position popup
@@ -391,3 +396,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+

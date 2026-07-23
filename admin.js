@@ -1,4 +1,9 @@
 const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
+function getFullImageUrl(url) {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return "https://bonfirecode-api.onrender.com" + url;
+}
 
 const showToast = (msg, type = 'success') => {
     const container = document.getElementById('toast-container');
@@ -348,10 +353,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         projects.forEach(p => {
             const imgUrl = p.thumbnailUrl 
-                            ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `https://bonfirecode-api.onrender.com${p.thumbnailUrl}`) 
+                            ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `${getFullImageUrl(p.thumbnailUrl)}`) 
                             : 'https://placehold.co/600x400/222/ea580c?text=No+Image';
                             
-            const authorAvatar = p.authorAvatarUrl ? `https://bonfirecode-api.onrender.com${p.authorAvatarUrl}` : `https://ui-avatars.com/api/?name=${p.authorName}&background=random`;
+            const authorAvatar = p.authorAvatarUrl ? `${getFullImageUrl(p.authorAvatarUrl)}` : `https://ui-avatars.com/api/?name=${p.authorName}&background=random`;
 
             const card = document.createElement('div');
             card.className = "card rounded-lg overflow-hidden shadow flex flex-col group transition-transform hover:-translate-y-1";
@@ -454,3 +459,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetchStats();
     fetchUsers();
 });
+

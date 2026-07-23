@@ -1,4 +1,9 @@
 const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
+function getFullImageUrl(url) {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return "https://bonfirecode-api.onrender.com" + url;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     // Auth Check
@@ -48,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }).then(res => res.json()).then(data => {
                 if (data.avatarUrl) {
                     const navAvatar = document.querySelector('#btn-avatar-dropdown img');
-                    if (navAvatar) navAvatar.src = `https://bonfirecode-api.onrender.com${data.avatarUrl}`;
+                    if (navAvatar) navAvatar.src = `${getFullImageUrl(data.avatarUrl)}`;
                 }
             }).catch(e => console.error(e));
         } catch(e) { 
@@ -242,3 +247,4 @@ async function fetchCategories() {
         console.error("Lỗi tải danh mục:", e);
     }
 }
+

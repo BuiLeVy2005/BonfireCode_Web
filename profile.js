@@ -1,13 +1,18 @@
-﻿const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
+const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api';
+function getFullImageUrl(url) {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return "https://bonfirecode-api.onrender.com" + url;
+}
 let userProjects = []; // Add global scope for userProjects
 let userRankId = 1;
 
 const rankIcons = {
-    'rank1': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`, // Kẻ Lưu Đày
-    'rank2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg>`, // Kẻ Nhóm Lửa
-    'rank3': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>`, // Kỵ Sĩ Thuật Toán
-    'rank4': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>`, // Ma Tôn Dữ Liệu
-    'rank5': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>`  // Lãnh Chúa Tro Tàn
+    'rank1': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`, // K? Luu ��y
+    'rank2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg>`, // K? Nh�m L?a
+    'rank3': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>`, // K? Si Thu?t To�n
+    'rank4': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>`, // Ma T�n D? Li?u
+    'rank5': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>`  // L�nh Ch�a Tro T�n
 };
 
 function applyBanner(targetElement, bannerUrl) {
@@ -22,7 +27,7 @@ function applyBanner(targetElement, bannerUrl) {
     }
 
     if (bannerUrl.includes('.')) {
-        targetElement.style.backgroundImage = `url('https://bonfirecode-api.onrender.com${bannerUrl}')`;
+        targetElement.style.backgroundImage = `url('${getFullImageUrl(bannerUrl)}')`;
     } else {
         targetElement.style.backgroundImage = 'none';
         const bannerItem = document.querySelector(`.id-item-banner[data-url="${bannerUrl}"]`);
@@ -39,7 +44,7 @@ function applyBanner(targetElement, bannerUrl) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Khởi tạo & Xác thực
+    // 1. Kh?i t?o & X�c th?c
     const token = localStorage.getItem('bonfire_token');
     if (!token) {
         window.location.href = 'auth.html';
@@ -47,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     let loggedInUsername = null;
-    let username = 'Kẻ Khống Lửa';
+    let username = 'K? Kh?ng L?a';
     let isMyProfile = false;
 
     try {
@@ -57,14 +62,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         const role = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || payload.role;
 
-        // Cập nhật nav dropdown
+        // C?p nh?t nav dropdown
         const dropdownUsername = document.getElementById('dropdown-username');
         if (dropdownUsername) dropdownUsername.textContent = loggedInUsername;
 
         if (role === 'Admin') {
             const dropdownMenu = document.querySelector('#user-dropdown-menu .py-1:nth-of-type(2)');
             if (dropdownMenu && !document.getElementById('admin-link')) {
-                dropdownMenu.insertAdjacentHTML('afterbegin', '<a id="admin-link" href="admin.html" class="block px-4 py-1.5 text-[#ff4500] font-bold hover:bg-[#0366d6] hover:text-white transition"><i class="fa-solid fa-gavel mr-1"></i> Tòa Án Tối Cao</a>');
+                dropdownMenu.insertAdjacentHTML('afterbegin', '<a id="admin-link" href="admin.html" class="block px-4 py-1.5 text-[#ff4500] font-bold hover:bg-[#0366d6] hover:text-white transition"><i class="fa-solid fa-gavel mr-1"></i> T�a �n T?i Cao</a>');
             }
         }
         
@@ -91,14 +96,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (tabLiked) tabLiked.style.display = 'none';
         }
 
-        // Cập nhật UI cơ bản
+        // C?p nh?t UI co b?n
         const profileUsername = document.getElementById('profile-username');
         if (profileUsername) profileUsername.textContent = username;
         
         const profileId = document.getElementById('profile-id');
         if (profileId) profileId.textContent = "@" + username.toLowerCase();
 
-        // Lấy thông tin thực tế từ Database
+        // L?y th�ng tin th?c t? t? Database
         try {
             const meRes = await fetch(`${API_BASE_URL}/Auth/me`, {
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -113,21 +118,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                     if (me.avatarUrl) {
                         const profileAvatar = document.getElementById('profile-avatar');
-                        if (profileAvatar) profileAvatar.src = `https://bonfirecode-api.onrender.com${me.avatarUrl}`;
+                        if (profileAvatar) profileAvatar.src = `${getFullImageUrl(me.avatarUrl)}`;
                     }
                     if (me.coverUrl) {
                         const profileCover = document.getElementById('profile-cover');
-                        if (profileCover) profileCover.src = `https://bonfirecode-api.onrender.com${me.coverUrl}`;
+                        if (profileCover) profileCover.src = `${getFullImageUrl(me.coverUrl)}`;
                     }
                 }
                 
-                // Luôn cập nhật Avatar trên thanh điều hướng cho user đang đăng nhập
+                // Lu�n c?p nh?t Avatar tr�n thanh di?u hu?ng cho user dang dang nh?p
                 const btnAvatarDropdown = document.getElementById('btn-avatar-dropdown');
                 if (btnAvatarDropdown) {
                     btnAvatarDropdown.classList.add('relative');
                     const navAvatar = btnAvatarDropdown.querySelector('img');
                     if (navAvatar && me.avatarUrl) {
-                        navAvatar.src = `https://bonfirecode-api.onrender.com${me.avatarUrl}`;
+                        navAvatar.src = `${getFullImageUrl(me.avatarUrl)}`;
                         navAvatar.classList.add('relative', 'z-10');
                     }
 
@@ -147,13 +152,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         } catch (err) {
-            console.error("Lỗi load profile thật:", err);
+            console.error("L?i load profile th?t:", err);
         }
 
         setupDropdown();
 
     } catch (e) {
-        console.error("Lỗi giải mã token:", e);
+        console.error("L?i gi?i m� token:", e);
         window.location.href = 'auth.html';
         return;
     }
@@ -166,14 +171,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 2. Fetch Dữ liệu Đồ án
+    // 2. Fetch D? li?u �? �n
     try {
         const response = await fetch(`${API_BASE_URL}/projects`);
-        if (!response.ok) throw new Error("Không thể tải danh sách dự án");
+        if (!response.ok) throw new Error("Kh�ng th? t?i danh s�ch d? �n");
         
         const allProjects = await response.json();
         
-        // Lọc dự án của user hiện tại (match theo authorName)
+        // L?c d? �n c?a user hi?n t?i (match theo authorName)
         userProjects = allProjects.filter(p => p.authorName === username);
 
         // Fetch user profile stats (followers, following)
@@ -192,7 +197,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (usernameEl) usernameEl.textContent = `@${profileData.username}`;
                 
                 const bioEl = document.getElementById('profile-bio');
-                if (bioEl) bioEl.textContent = profileData.bio || 'Chưa có tiểu sử.';
+                if (bioEl) bioEl.textContent = profileData.bio || 'Chua c� ti?u s?.';
                 
                 const avatarEl = document.getElementById('profile-avatar');
                 if (avatarEl) {
@@ -242,17 +247,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
         } catch (e) {
-            console.error("Lỗi lấy thông tin followers:", e);
+            console.error("L?i l?y th�ng tin followers:", e);
         }
 
-        // 3. Xử lý Logic Thống Kê
+        // 3. X? l� Logic Th?ng K�
         await calculateAndRenderStats(userProjects);
 
-        // 4. Render Đồ án Nổi Bật (Pinned)
+        // 4. Render �? �n N?i B?t (Pinned)
         renderPinnedProjects(userProjects, isMyProfile);
         
     } catch (error) {
-        console.error("Lỗi khi fetch dữ liệu đồ án:", error);
+        console.error("L?i khi fetch d? li?u d? �n:", error);
     }
 
     setupEditModal(token);
@@ -277,7 +282,7 @@ function fetchUserRank(profileData) {
             rankIconEl.innerHTML = rankIcons['rank1']; // Default fallback
         }
     } else {
-        rankNameEl.textContent = "Chưa xếp hạng";
+        rankNameEl.textContent = "Chua x?p h?ng";
         rankIconEl.innerHTML = rankIcons['rank1'];
     }
 
@@ -291,7 +296,7 @@ function fetchUserRank(profileData) {
     else if (totalEmbers >= 50) nextRequired = 120;
     else nextRequired = 50;
 
-    requiredEmbersEl.textContent = `/ ${nextRequired} Tàn Lửa`;
+    requiredEmbersEl.textContent = `/ ${nextRequired} T�n L?a`;
 
     // Calculate percentage
     let percentage = 100;
@@ -314,24 +319,24 @@ function fetchUserRank(profileData) {
             let finalPercentage = Math.min(Math.max(percentage, 5), 100); // Min 5% so it's visible
             progressBar.style.width = `${finalPercentage}%`; 
             
-            // 1. Reset toàn bộ class cũ, giữ lại các class cấu trúc cơ bản
+            // 1. Reset to�n b? class cu, gi? l?i c�c class c?u tr�c co b?n
             progressBar.className = 'h-full transition-all duration-1000 ease-out rounded-full relative overflow-hidden';
             
-            // 2. Kiểm tra điều kiện để gán màu sắc động
+            // 2. Ki?m tra di?u ki?n d? g�n m�u s?c d?ng
             if (percentage === 0) {
-                // 0%: Xám tro lạnh lẽo
+                // 0%: X�m tro l?nh l?o
                 progressBar.classList.add('bg-gray-600');
             } else if (percentage < 40) {
-                // Dưới 40%: Xám trắng có chút sáng
+                // Du?i 40%: X�m tr?ng c� ch�t s�ng
                 progressBar.classList.add('bg-gradient-to-r', 'from-gray-500', 'to-gray-300');
             } else if (percentage < 60) {
-                // 40% - 59%: Bắt đầu có hơi ấm (Cam nhạt)
+                // 40% - 59%: B?t d?u c� hoi ?m (Cam nh?t)
                 progressBar.classList.add('bg-gradient-to-r', 'from-gray-300', 'to-orange-400');
             } else if (percentage < 80) {
-                // 60% - 79%: Rực rỡ (Đỏ Cam)
+                // 60% - 79%: R?c r? (�? Cam)
                 progressBar.classList.add('bg-gradient-to-r', 'from-orange-500', 'to-red-600', 'shadow-[0_0_10px_#ff4500]');
             } else {
-                // >= 80%: Thức tỉnh - Hiệu ứng Sấm sét (Đỏ tía sang Lục lam điện)
+                // >= 80%: Th?c t?nh - Hi?u ?ng S?m s�t (�? t�a sang L?c lam di?n)
                 progressBar.classList.add('bg-gradient-to-r', 'from-red-600', 'via-purple-500', 'to-cyan-400', 'bar-lightning');
             }
         }
@@ -359,7 +364,7 @@ function setupEditModal(token) {
 
     if (btnEditProfile && editModal) {
         btnEditProfile.addEventListener('click', () => {
-            // Pre-fill dữ liệu hiện tại
+            // Pre-fill d? li?u hi?n t?i
             inputFullName.value = profileUsernameEl.textContent.trim();
             inputBio.value = profileBioEl.textContent.trim();
             if(inputAvatarFile) inputAvatarFile.value = ''; // Reset file input
@@ -383,17 +388,17 @@ function setupEditModal(token) {
             const newBio = inputBio.value.trim();
 
             if (!newFullName) {
-                editError.textContent = "Tên hiển thị không được để trống!";
+                editError.textContent = "T�n hi?n th? kh�ng du?c d? tr?ng!";
                 editError.classList.remove('hidden');
                 return;
             }
 
             btnSaveEdit.disabled = true;
-            btnSaveEdit.textContent = "Đang lưu...";
+            btnSaveEdit.textContent = "�ang luu...";
             editError.classList.add('hidden');
 
             try {
-                // Giải mã token để lấy UserId
+                // Gi?i m� token d? l?y UserId
                 const payload = JSON.parse(decodeURIComponent(escape(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))));
                 const userId = payload.sub || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || payload.id;
                 
@@ -411,22 +416,22 @@ function setupEditModal(token) {
                     formData.append('CoverFile', inputCoverFile.files[0]);
                 }
 
-                // Gọi API cập nhật
+                // G?i API c?p nh?t
                 const res = await fetch(endpoint, {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`
-                        // Bỏ Content-Type để trình duyệt tự set multipart/form-data
+                        // B? Content-Type d? tr�nh duy?t t? set multipart/form-data
                     },
                     body: formData
                 });
 
                 if (!res.ok) {
                     const errorText = await res.text();
-                    throw new Error(errorText || "API từ chối cập nhật hồ sơ. Vui lòng kiểm tra lại quyền hoặc Backend.");
+                    throw new Error(errorText || "API t? ch?i c?p nh?t h? so. Vui l�ng ki?m tra l?i quy?n ho?c Backend.");
                 }
 
-                // Cập nhật DOM trực tiếp (No-reload UI)
+                // C?p nh?t DOM tr?c ti?p (No-reload UI)
                 profileUsernameEl.textContent = newFullName;
                 if (newBio) {
                     profileBioEl.textContent = newBio;
@@ -434,7 +439,7 @@ function setupEditModal(token) {
                 
                 const responseData = await res.json();
                 if (responseData.avatarUrl) {
-                    const newAvatarSrc = `https://bonfirecode-api.onrender.com${responseData.avatarUrl}`;
+                    const newAvatarSrc = `${getFullImageUrl(responseData.avatarUrl)}`;
                     if (profileAvatarEl) profileAvatarEl.src = newAvatarSrc;
                     
                     const navAvatar = document.querySelector('#btn-avatar-dropdown img');
@@ -442,12 +447,12 @@ function setupEditModal(token) {
                 }
 
                 if (responseData.coverUrl) {
-                    const newCoverSrc = `https://bonfirecode-api.onrender.com${responseData.coverUrl}`;
+                    const newCoverSrc = `${getFullImageUrl(responseData.coverUrl)}`;
                     if (profileCoverEl) profileCoverEl.src = newCoverSrc;
                 }
 
-                btnSaveEdit.textContent = "Thành công!";                   
-                // Nếu không có json trả về, fallback bằng file API FileReader nếu cần
+                btnSaveEdit.textContent = "Th�nh c�ng!";                   
+                // N?u kh�ng c� json tr? v?, fallback b?ng file API FileReader n?u c?n
                 if (inputAvatarFile && inputAvatarFile.files.length > 0) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
@@ -469,16 +474,16 @@ function setupEditModal(token) {
 
                 closeModal();
                 
-                // Hiển thị Toast (Tạm dùng alert, có thể tùy biến sau)
-                alert("Cập nhật hồ sơ thành công!");
+                // Hi?n th? Toast (T?m d�ng alert, c� th? t�y bi?n sau)
+                alert("C?p nh?t h? so th�nh c�ng!");
 
             } catch (error) {
-                console.error("Lỗi cập nhật hồ sơ:", error);
+                console.error("L?i c?p nh?t h? so:", error);
                 editError.textContent = error.message;
                 editError.classList.remove('hidden');
             } finally {
                 btnSaveEdit.disabled = false;
-                btnSaveEdit.textContent = "Lưu thay đổi";
+                btnSaveEdit.textContent = "Luu thay d?i";
             }
         });
     }
@@ -514,7 +519,7 @@ async function calculateAndRenderStats(projects) {
     let totalComments = 0;
     let totalDownloads = projects.reduce((sum, p) => sum + (p.downloadCount || 0), 0);
     
-    // Cộng dồn điểm đánh giá và các chỉ số từ API
+    // C?ng d?n di?m d�nh gi� v� c�c ch? s? t? API
     await Promise.all(projects.map(async (p) => {
         try {
             // Fetch Comments
@@ -531,28 +536,28 @@ async function calculateAndRenderStats(projects) {
                 const ratingData = await rRes.json();
                 p.totalRatings = ratingData.totalRatings || 0;
                 p.averageRating = ratingData.average || 0;
-                totalStars += p.totalRatings; // Lượt sao = tổng số lượt đánh giá
+                totalStars += p.totalRatings; // Lu?t sao = t?ng s? lu?t d�nh gi�
             }
         } catch (e) {
-            console.error("Lỗi lấy thông số project:", p.id, e);
+            console.error("L?i l?y th�ng s? project:", p.id, e);
         }
     }));
 
     const statsHTML = `
         <div class="bg-[#161b22] border border-[#30363d] rounded-md p-4 text-center">
-            <p class="text-xs text-gray-400 mb-1">Tổng dự án</p>
+            <p class="text-xs text-gray-400 mb-1">T?ng d? �n</p>
             <p class="text-2xl font-bold text-blue-400">${totalProjects}</p>
         </div>
         <div class="bg-[#161b22] border border-[#30363d] rounded-md p-4 text-center">
-            <p class="text-xs text-gray-400 mb-1">Lượt sao</p>
+            <p class="text-xs text-gray-400 mb-1">Lu?t sao</p>
             <p class="text-2xl font-bold text-yellow-400">${totalStars}</p>
         </div>
         <div class="bg-[#161b22] border border-[#30363d] rounded-md p-4 text-center">
-            <p class="text-xs text-gray-400 mb-1">Tải xuống</p>
+            <p class="text-xs text-gray-400 mb-1">T?i xu?ng</p>
             <p class="text-2xl font-bold text-green-400">${totalDownloads}</p>
         </div>
         <div class="bg-[#161b22] border border-[#30363d] rounded-md p-4 text-center">
-            <p class="text-xs text-gray-400 mb-1">Bình luận</p>
+            <p class="text-xs text-gray-400 mb-1">B�nh lu?n</p>
             <p class="text-2xl font-bold text-purple-400">${totalComments}</p>
         </div>
     `;
@@ -562,10 +567,10 @@ async function calculateAndRenderStats(projects) {
         statsContainer.innerHTML = statsHTML;
     }
 
-    // Cập nhật Hoạt động đóng góp (Activity)
+    // C?p nh?t Ho?t d?ng d�ng g�p (Activity)
     const activityContainer = document.getElementById('user-activity-list');
     if (activityContainer && projects.length > 0) {
-        // Sắp xếp giảm dần theo ngày tạo
+        // S?p x?p gi?m d?n theo ng�y t?o
         const sortedByDate = [...projects].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         const recent = sortedByDate.slice(0, 3);
         
@@ -574,7 +579,7 @@ async function calculateAndRenderStats(projects) {
             const dateObj = new Date(p.createdAt);
             const dateStr = dateObj.toLocaleDateString('vi-VN', { year: 'numeric', month: 'short', day: 'numeric' });
             
-            // Nếu có lượt tải hoặc comment/rating thì coi như là project cũ, ngược lại là "tạo mới"
+            // N?u c� lu?t t?i ho?c comment/rating th� coi nhu l� project cu, ngu?c l?i l� "t?o m?i"
             const isNew = p.commentCount === 0 && p.totalRatings === 0 && (p.downloadCount || 0) === 0;
             
             actHtml += `
@@ -592,26 +597,26 @@ async function calculateAndRenderStats(projects) {
                         <span class="text-xs text-gray-500">${dateStr}</span>
                     </div>
                     <p class="text-sm text-gray-300">
-                        ${isNew ? 'Đã tạo kho lưu trữ mới' : 'Đã tải lên đồ án'} 
+                        ${isNew ? '�� t?o kho luu tr? m?i' : '�� t?i l�n d? �n'} 
                         <a href="detail.html?id=${p.id}" class="text-blue-400 font-semibold hover:underline">${p.title}</a>
                     </p>
-                    <p class="text-xs text-gray-500 mt-1 line-clamp-2">${p.description || 'Không có mô tả'}</p>
+                    <p class="text-xs text-gray-500 mt-1 line-clamp-2">${p.description || 'Kh�ng c� m� t?'}</p>
                 </div>
             </div>
             `;
         });
         
-        // Nút xem thêm nếu còn nhiều hoạt động
+        // N�t xem th�m n?u c�n nhi?u ho?t d?ng
         if (projects.length > 3) {
             actHtml += `
             <div class="mt-4 text-center">
-                <a href="#" class="text-blue-400 hover:underline text-sm font-semibold">Xem thêm hoạt động...</a>
+                <a href="#" class="text-blue-400 hover:underline text-sm font-semibold">Xem th�m ho?t d?ng...</a>
             </div>`;
         }
 
         activityContainer.innerHTML = actHtml;
     } else if (activityContainer) {
-        activityContainer.innerHTML = `<p class="text-sm text-gray-500">Chưa có hoạt động nào.</p>`;
+        activityContainer.innerHTML = `<p class="text-sm text-gray-500">Chua c� ho?t d?ng n�o.</p>`;
     }
 }
 
@@ -620,17 +625,17 @@ function renderPinnedProjects(projects, isMyProfile = false) {
     if (!pinnedContainer) return;
 
     if (projects.length === 0) {
-        pinnedContainer.innerHTML = `<p class="text-sm text-gray-500 col-span-2">Chưa có đồ án nào được chia sẻ.</p>`;
+        pinnedContainer.innerHTML = `<p class="text-sm text-gray-500 col-span-2">Chua c� d? �n n�o du?c chia s?.</p>`;
         return;
     }
 
-    // Sắp xếp theo tổng (lượt sao + lượt bình luận) giảm dần để lấy các đồ án nổi bật
+    // S?p x?p theo t?ng (lu?t sao + lu?t b�nh lu?n) gi?m d?n d? l?y c�c d? �n n?i b?t
     const sorted = [...projects].sort((a, b) => {
         const scoreA = (a.totalRatings || 0) + (a.commentCount || 0);
         const scoreB = (b.totalRatings || 0) + (b.commentCount || 0);
         return scoreB - scoreA;
     });
-    const pinned = sorted.slice(0, 2); // Lấy tối đa 2 đồ án nổi bật
+    const pinned = sorted.slice(0, 2); // L?y t?i da 2 d? �n n?i b?t
 
     let html = '';
     pinned.forEach(p => {
@@ -651,7 +656,7 @@ function renderPinnedProjects(projects, isMyProfile = false) {
         let optionsHtml = '';
         if (isMyProfile) {
             optionsHtml = `
-            <!-- Nút 3 chấm -->
+            <!-- N�t 3 ch?m -->
             <button class="btn-proj-options absolute top-4 right-4 text-gray-500 hover:text-white focus:outline-none bg-[#0d1117]/80 rounded p-1">
                 <svg class="w-5 h-5 pointer-events-none" fill="currentColor" viewBox="0 0 16 16"><path d="M8 9a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM8 4a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM8 14a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
             </button>`;
@@ -666,17 +671,17 @@ function renderPinnedProjects(projects, isMyProfile = false) {
             
             <!-- Dropdown Menu -->
             <div class="proj-dropdown-menu hidden absolute right-4 top-10 w-32 bg-[#161b22] border border-[#30363d] rounded-md shadow-lg z-10">
-                <button class="btn-edit-proj block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#0366d6] transition" data-id="${p.id}" data-title="${p.title}" data-desc="${p.description}">Chỉnh sửa</button>
-                <button class="btn-delete-proj block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-600 hover:text-white transition rounded-b-md" data-id="${p.id}">Xóa</button>
+                <button class="btn-edit-proj block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#0366d6] transition" data-id="${p.id}" data-title="${p.title}" data-desc="${p.description}">Ch?nh s?a</button>
+                <button class="btn-delete-proj block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-600 hover:text-white transition rounded-b-md" data-id="${p.id}">X�a</button>
             </div>
 
             <div class="p-4 flex-grow flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2 pr-6">
                         <a href="detail.html?id=${p.id}" class="text-blue-400 font-semibold text-sm hover:underline group-hover:text-purple-400 transition line-clamp-1">${p.title}</a>
-                        <span class="text-xs text-gray-400 border border-[#30363d] px-2 py-0.5 rounded-full min-w-max">Công cộng</span>
+                        <span class="text-xs text-gray-400 border border-[#30363d] px-2 py-0.5 rounded-full min-w-max">C�ng c?ng</span>
                     </div>
-                    <p class="text-xs text-gray-400 mb-4 h-10 line-clamp-2">${p.description || 'Chưa có mô tả'}</p>
+                    <p class="text-xs text-gray-400 mb-4 h-10 line-clamp-2">${p.description || 'Chua c� m� t?'}</p>
                 </div>
                 <div class="flex items-center gap-4 text-xs text-gray-400 mt-auto">
                     <span class="flex items-center gap-1">
@@ -695,9 +700,9 @@ function renderPinnedProjects(projects, isMyProfile = false) {
     pinnedContainer.innerHTML = html;
 }
 
-// 6. Xử lý Global Click cho Dropdown, Delete, Quick Edit
+// 6. X? l� Global Click cho Dropdown, Delete, Quick Edit
 document.addEventListener('click', async (e) => {
-    // Đóng tất cả dropdown nếu click ra ngoài
+    // ��ng t?t c? dropdown n?u click ra ngo�i
     if (!e.target.closest('.btn-proj-options') && !e.target.closest('.proj-dropdown-menu')) {
         document.querySelectorAll('.proj-dropdown-menu').forEach(menu => {
             menu.classList.add('hidden');
@@ -710,7 +715,7 @@ document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.btn-proj-options');
         const menu = btn.nextElementSibling;
         
-        // Đóng các menu khác
+        // ��ng c�c menu kh�c
         document.querySelectorAll('.proj-dropdown-menu').forEach(m => {
             if (m !== menu) m.classList.add('hidden');
         });
@@ -718,13 +723,13 @@ document.addEventListener('click', async (e) => {
         menu.classList.toggle('hidden');
     }
 
-    // Nút Xóa Đồ Án
+    // N�t X�a �? �n
     if (e.target.closest('.btn-delete-proj')) {
         e.preventDefault();
         const btn = e.target.closest('.btn-delete-proj');
         const id = btn.getAttribute('data-id');
         
-        if(!confirm('Bạn có chắc chắn muốn hiến tế (xóa) bảo vật này không? Hành động này không thể hoàn tác!')) return;
+        if(!confirm('B?n c� ch?c ch?n mu?n hi?n t? (x�a) b?o v?t n�y kh�ng? H�nh d?ng n�y kh�ng th? ho�n t�c!')) return;
         
         const token = localStorage.getItem('bonfire_token');
         try {
@@ -733,13 +738,13 @@ document.addEventListener('click', async (e) => {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             
-            if (!res.ok) throw new Error("API từ chối xóa");
+            if (!res.ok) throw new Error("API t? ch?i x�a");
             
-            // Xóa DOM trực tiếp
+            // X�a DOM tr?c ti?p
             const card = document.querySelector(`div[data-project-id="${id}"]`);
             if (card) card.remove();
             
-            // Giảm tổng số dự án
+            // Gi?m t?ng s? d? �n
             const statsContainer = document.getElementById('stats-container');
             if (statsContainer) {
                 const totalProjElem = statsContainer.querySelector('div:first-child p:nth-child(2)');
@@ -749,13 +754,13 @@ document.addEventListener('click', async (e) => {
                 }
             }
             
-            alert('Đã xóa thành công!');
+            alert('�� x�a th�nh c�ng!');
         } catch(error) {
-            alert('Lỗi: ' + error.message);
+            alert('L?i: ' + error.message);
         }
     }
 
-    // Nút Sửa Đồ Án
+    // N�t S?a �? �n
     if (e.target.closest('.btn-edit-proj')) {
         e.preventDefault();
         const btn = e.target.closest('.btn-edit-proj');
@@ -763,7 +768,7 @@ document.addEventListener('click', async (e) => {
         const title = btn.getAttribute('data-title');
         const desc = btn.getAttribute('data-desc');
         
-        // Đóng dropdown menu
+        // ��ng dropdown menu
         const menu = btn.closest('.proj-dropdown-menu');
         if(menu) menu.classList.add('hidden');
         
@@ -829,22 +834,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('bonfire_token');
             
             if (!title) {
-                errorBox.textContent = "Tên dự án là bắt buộc.";
+                errorBox.textContent = "T�n d? �n l� b?t bu?c.";
                 errorBox.classList.remove('hidden');
                 return;
             }
             
             btnSave.disabled = true;
-            btnSave.textContent = "Đang lưu...";
+            btnSave.textContent = "�ang luu...";
             errorBox.classList.add('hidden');
             
             try {
-                // Thu thập danh mục được chọn
+                // Thu th?p danh m?c du?c ch?n
                 const catIds = [];
                 document.querySelectorAll('input[name="editProjCategories"]:checked').forEach(cb => catIds.push(cb.value));
                 
-                // Ở đây API update project dùng JSON (PUT)
-                // Nếu backend cần FormData cho update project, ta có thể đổi thành FormData. Ở đây dùng JSON tạm theo mẫu.
+                // ? d�y API update project d�ng JSON (PUT)
+                // N?u backend c?n FormData cho update project, ta c� th? d?i th�nh FormData. ? d�y d�ng JSON t?m theo m?u.
                 const updateData = {
                     title: title,
                     description: desc,
@@ -862,13 +867,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (!res.ok) {
                     const text = await res.text();
-                    throw new Error(text || "Lỗi cập nhật dự án");
+                    throw new Error(text || "L?i c?p nh?t d? �n");
                 }
                 
-                alert("Cập nhật dự án thành công!");
+                alert("C?p nh?t d? �n th�nh c�ng!");
                 modal.classList.add('hidden');
                 
-                // Reload danh sách project bằng cách F5 hoặc fetch lại (F5 cho chắc)
+                // Reload danh s�ch project b?ng c�ch F5 ho?c fetch l?i (F5 cho ch?c)
                 window.location.reload();
                 
             } catch (err) {
@@ -876,7 +881,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorBox.classList.remove('hidden');
             } finally {
                 btnSave.disabled = false;
-                btnSave.textContent = "Lưu thay đổi";
+                btnSave.textContent = "Luu thay d?i";
             }
         });
     }
@@ -930,7 +935,7 @@ function setupTabs() {
     if (tabMyProjects) {
         tabMyProjects.addEventListener('click', () => {
             setActiveTab(tabMyProjects, contentMyProjects);
-            renderProjectsList(userProjects, 'my-projects-grid'); // Dùng userProjects từ API ban đầu
+            renderProjectsList(userProjects, 'my-projects-grid'); // D�ng userProjects t? API ban d?u
         });
     }
 
@@ -946,14 +951,14 @@ function renderProjectsList(projects, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    container.innerHTML = ''; // Clear cũ
+    container.innerHTML = ''; // Clear cu
     if (!projects || projects.length === 0) {
-        container.innerHTML = '<p class="text-gray-400 col-span-full">Không có đồ án nào để hiển thị.</p>';
+        container.innerHTML = '<p class="text-gray-400 col-span-full">Kh�ng c� d? �n n�o d? hi?n th?.</p>';
         return;
     }
 
     projects.forEach(p => {
-        const thumbUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `https://bonfirecode-api.onrender.com${p.thumbnailUrl}`) : 'https://placehold.co/600x400/21262d/8b949e?text=No+Image';
+        const thumbUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `${getFullImageUrl(p.thumbnailUrl)}`) : 'https://placehold.co/600x400/21262d/8b949e?text=No+Image';
         const card = document.createElement('div');
         card.className = "bg-[#161b22] border border-[#30363d] rounded-xl overflow-hidden hover:border-[#8b949e] transition flex flex-col group relative";
 
@@ -968,10 +973,10 @@ function renderProjectsList(projects, containerId) {
         if (isMyProject) {
             adminButtons = `
                 <div class="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <button onclick="editProject('${p.id}')" class="bg-blue-600 hover:bg-blue-500 text-white p-1.5 rounded-md text-xs shadow-lg" title="Sửa">
+                    <button onclick="editProject('${p.id}')" class="bg-blue-600 hover:bg-blue-500 text-white p-1.5 rounded-md text-xs shadow-lg" title="S?a">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                     </button>
-                    <button onclick="deleteProject('${p.id}')" class="bg-red-600 hover:bg-red-500 text-white p-1.5 rounded-md text-xs shadow-lg" title="Xóa">
+                    <button onclick="deleteProject('${p.id}')" class="bg-red-600 hover:bg-red-500 text-white p-1.5 rounded-md text-xs shadow-lg" title="X�a">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 </div>
@@ -989,7 +994,7 @@ function renderProjectsList(projects, containerId) {
             </div>
             <div class="p-4 flex-grow flex flex-col cursor-pointer" onclick="window.location.href='detail.html?id=${p.id}'">
                 <h3 class="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-blue-400 transition">${p.title}</h3>
-                <p class="text-sm text-gray-400 line-clamp-2 mb-4 flex-grow">${p.description || 'Chưa có mô tả...'}</p>
+                <p class="text-sm text-gray-400 line-clamp-2 mb-4 flex-grow">${p.description || 'Chua c� m� t?...'}</p>
                 <div class="flex flex-wrap gap-1 mb-4 mt-auto">
                     ${categoriesHtml}
                 </div>
@@ -999,14 +1004,14 @@ function renderProjectsList(projects, containerId) {
                         <span>${authorName}</span>
                     </div>
                     <div class="flex items-center gap-3">
-                        <div class="flex items-center text-[#8b949e]" title="Tải xuống">
+                        <div class="flex items-center text-[#8b949e]" title="T?i xu?ng">
                             <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             <span>${p.downloadCount || 0}</span>
                         </div>
-                        <div class="flex items-center text-[#8b949e]" title="Điểm đánh giá trung bình">
+                        <div class="flex items-center text-[#8b949e]" title="�i?m d�nh gi� trung b�nh">
                             <svg class="w-3.5 h-3.5 mr-1 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                             <span class="font-medium ${totalRatings > 0 ? 'text-purple-400' : 'text-[#8b949e]'}">
-                                ${totalRatings > 0 ? `${averageRating} (${totalRatings})` : 'Chưa có'}
+                                ${totalRatings > 0 ? `${averageRating} (${totalRatings})` : 'Chua c�'}
                             </span>
                         </div>
                     </div>
@@ -1024,7 +1029,7 @@ window.editProject = function(id) {
     if (!proj) return;
     
     const modal = document.getElementById('quickEditProjectModal');
-    if (!modal) return alert("Không tìm thấy modal sửa.");
+    if (!modal) return alert("Kh�ng t�m th?y modal s?a.");
     
     document.getElementById('editProjId').value = id;
     document.getElementById('editProjTitle').value = proj.title;
@@ -1040,7 +1045,7 @@ window.editProject = function(id) {
 
 window.deleteProject = async function(id) {
     event.stopPropagation();
-    if (!confirm("Ngài có chắc chắn muốn xóa đồ án này không?")) return;
+    if (!confirm("Ng�i c� ch?c ch?n mu?n x�a d? �n n�y kh�ng?")) return;
     
     const token = localStorage.getItem('bonfire_token');
     try {
@@ -1052,14 +1057,14 @@ window.deleteProject = async function(id) {
         });
         
         if (res.ok) {
-            alert("Đã xóa đồ án!");
+            alert("�� x�a d? �n!");
             window.location.reload();
         } else {
             const err = await res.text();
-            alert("Lỗi: " + err);
+            alert("L?i: " + err);
         }
     } catch(e) {
-        alert("Lỗi mạng: " + e.message);
+        alert("L?i m?ng: " + e.message);
     }
 };
 
@@ -1084,17 +1089,17 @@ async function loadLikedProjects() {
             const projects = await res.json();
             renderProjectsList(projects, 'liked-projects-grid');
         } else {
-            console.error("Lỗi lấy liked projects", res.status);
-            if (grid) grid.innerHTML = '<p class="text-red-400 col-span-full">Không thể tải dữ liệu. Hãy thử lại.</p>';
+            console.error("L?i l?y liked projects", res.status);
+            if (grid) grid.innerHTML = '<p class="text-red-400 col-span-full">Kh�ng th? t?i d? li?u. H�y th? l?i.</p>';
         }
     } catch (e) {
         if (loading) loading.classList.add('hidden');
-        console.error("Lỗi mạng:", e);
-        if (grid) grid.innerHTML = '<p class="text-red-400 col-span-full">Lỗi kết nối máy chủ.</p>';
+        console.error("L?i m?ng:", e);
+        if (grid) grid.innerHTML = '<p class="text-red-400 col-span-full">L?i k?t n?i m�y ch?.</p>';
     }
 }
 
-// Gọi setupTabs khi load xong
+// G?i setupTabs khi load xong
 setupTabs();
 
 // --- URL ROUTING LOGIC ---
@@ -1161,7 +1166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const profileBannerEl = document.getElementById('profile-banner');
             const profileBorderEl = document.getElementById('profile-border');
 
-            if (prevFullname) prevFullname.textContent = profileUsernameEl ? profileUsernameEl.textContent : 'Tên';
+            if (prevFullname) prevFullname.textContent = profileUsernameEl ? profileUsernameEl.textContent : 'T�n';
             if (prevUsername) prevUsername.textContent = profileIdEl ? profileIdEl.textContent : '@username';
             
             // Extract current images
@@ -1213,11 +1218,11 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const rankNames = {
-                1: "Kẻ Lưu Đày",
-                2: "Kẻ Nhóm Lửa",
-                3: "Kỵ Sĩ Thuật Toán",
-                4: "Ma Tôn Dữ Liệu",
-                5: "Lãnh Chúa Tro Tàn"
+                1: "K? Luu ��y",
+                2: "K? Nh�m L?a",
+                3: "K? Si Thu?t To�n",
+                4: "Ma T�n D? Li?u",
+                5: "L�nh Ch�a Tro T�n"
             };
 
             const applyLockSystem = (selector, reqsMap) => {
@@ -1240,7 +1245,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <svg class="w-8 h-8 text-[#d4af37] drop-shadow-md mb-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
                             </svg>
-                            <span class="text-[10px] text-[#d4af37] font-bold uppercase text-center leading-tight">Yêu cầu<br>${rankNames[reqRank]}</span>
+                            <span class="text-[10px] text-[#d4af37] font-bold uppercase text-center leading-tight">Y�u c?u<br>${rankNames[reqRank]}</span>
                         `;
                         item.appendChild(overlay);
                     } else {
@@ -1327,7 +1332,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const token = localStorage.getItem('bonfire_token');
                 if (!token) {
-                    alert('Phiên đăng nhập đã hết hạn.');
+                    alert('Phi�n dang nh?p d� h?t h?n.');
                     return;
                 }
 
@@ -1343,7 +1348,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (res.ok) {
                         const url = data.avatarUrl;
                         currentAvatarUrl = url;
-                        if (prevAvatar) prevAvatar.src = `https://bonfirecode-api.onrender.com${url}`;
+                        if (prevAvatar) prevAvatar.src = `${getFullImageUrl(url)}`;
                         
                         resetActiveBorders('.id-item-avatar');
                         
@@ -1351,7 +1356,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const avatarGrid = document.getElementById('avatar-grid');
                         if (avatarGrid) {
                             const newImg = document.createElement('img');
-                            newImg.src = `https://bonfirecode-api.onrender.com${url}`;
+                            newImg.src = `${getFullImageUrl(url)}`;
                             newImg.alt = "Custom Avatar";
                             newImg.className = "id-item-avatar w-full aspect-square object-cover rounded bg-[#161b22] cursor-pointer border border-transparent hover:border-gray-500 transition ring-2 ring-[#c8aa6e]";
                             newImg.setAttribute('data-url', url);
@@ -1359,7 +1364,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             
                             newImg.addEventListener('click', (ev) => {
                                 currentAvatarUrl = url;
-                                if (prevAvatar) prevAvatar.src = `https://bonfirecode-api.onrender.com${url}`;
+                                if (prevAvatar) prevAvatar.src = `${getFullImageUrl(url)}`;
                                 resetActiveBorders('.id-item-avatar');
                                 ev.currentTarget.classList.remove('ring-transparent');
                                 ev.currentTarget.classList.add('ring-[#c8aa6e]');
@@ -1368,11 +1373,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             btnUploadCustomAvatar.insertAdjacentElement('afterend', newImg);
                         }
                     } else {
-                        alert(data.message || 'Lỗi tải ảnh lên.');
+                        alert(data.message || 'L?i t?i ?nh l�n.');
                     }
                 } catch (err) {
                     console.error(err);
-                    alert('Lỗi hệ thống.');
+                    alert('L?i h? th?ng.');
                 }
                 inputUploadAvatar.value = '';
             });
@@ -1383,7 +1388,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.addEventListener('click', (e) => {
                 const url = e.currentTarget.getAttribute('data-url');
                 currentAvatarUrl = url;
-                if (prevAvatar) prevAvatar.src = `https://bonfirecode-api.onrender.com${url}`;
+                if (prevAvatar) prevAvatar.src = `${getFullImageUrl(url)}`;
                 
                 resetActiveBorders('.id-item-avatar');
                 e.currentTarget.classList.remove('ring-transparent');
@@ -1396,7 +1401,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.addEventListener('click', (e) => {
                 if (e.currentTarget.getAttribute('data-locked') === 'true') {
                     // Use a toast alert or simple alert
-                    alert('Bạn cần thăng cấp để mở khóa Khung này!');
+                    alert('B?n c?n thang c?p d? m? kh�a Khung n�y!');
                     return;
                 }
 
@@ -1424,7 +1429,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         prevBorder.parentElement.appendChild(clonedSvg);
                     } else if (url) {
                         // Regular image border
-                        prevBorder.src = `https://bonfirecode-api.onrender.com${url}`;
+                        prevBorder.src = `${getFullImageUrl(url)}`;
                         prevBorder.classList.remove('hidden');
                     } else {
                         // No border
@@ -1443,7 +1448,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.id-item-banner').forEach(item => {
             item.addEventListener('click', (e) => {
                 if (e.currentTarget.getAttribute('data-locked') === 'true') {
-                    alert('Bạn cần thăng cấp để mở khóa Cờ này!');
+                    alert('B?n c?n thang c?p d? m? kh�a C? n�y!');
                     return;
                 }
 
@@ -1485,14 +1490,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (!res.ok) {
                         const err = await res.text();
-                        throw new Error(err || "Lỗi lưu định danh.");
+                        throw new Error(err || "L?i luu d?nh danh.");
                     }
 
                     // Success - reload page or update DOM
                     window.location.reload();
 
                 } catch (error) {
-                    alert('Lỗi: ' + error.message);
+                    alert('L?i: ' + error.message);
                 } finally {
                     btnSaveIdentity.disabled = false;
                     if (spinnerSaveIdentity) spinnerSaveIdentity.classList.add('hidden');
@@ -1501,4 +1506,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
 
