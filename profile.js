@@ -201,12 +201,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 const avatarEl = document.getElementById('profile-avatar');
                 if (avatarEl) {
-                    avatarEl.src = profileData.avatarUrl ? `${API_BASE_URL.replace('/api', '')}${profileData.avatarUrl}` : 'assets/images/avata.jpg';
+                    avatarEl.src = profileData.avatarUrl ? getFullImageUrl(profileData.avatarUrl) : 'assets/images/avata.jpg';
                 }
                 
                 const coverEl = document.getElementById('profile-cover');
                 if (coverEl && profileData.coverUrl) {
-                    coverEl.src = `${API_BASE_URL.replace('/api', '')}${profileData.coverUrl}`;
+                    coverEl.src = getFullImageUrl(profileData.coverUrl);
                 }
 
                 // Gamification Identity
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             clonedSvg.setAttribute('class', 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-44 h-44 z-20 pointer-events-none transition-all duration-300 injected-svg-border');
                             borderEl.parentElement.appendChild(clonedSvg);
                         } else {
-                            borderEl.src = `${API_BASE_URL.replace('/api', '')}${profileData.selectedBorderUrl}`;
+                            borderEl.src = getFullImageUrl(profileData.selectedBorderUrl);
                             borderEl.classList.remove('hidden');
                         }
                     } else {
@@ -662,7 +662,7 @@ function renderPinnedProjects(projects, isMyProfile = false) {
             </button>`;
         }
 
-        const thumbnailUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `${API_BASE_URL.replace('/api', '')}${p.thumbnailUrl}`) : 'https://placehold.co/400x200/161b22/8b949e?text=No+Image';
+        const thumbnailUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : getFullImageUrl(p.thumbnailUrl)) : 'https://placehold.co/400x200/161b22/8b949e?text=No+Image';
 
         html += `
         <div class="relative border border-[#30363d] rounded-md bg-[#0d1117] flex flex-col group hover:border-purple-500 transition duration-300 overflow-hidden" data-project-id="${p.id}">
@@ -1506,5 +1506,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
 
 
