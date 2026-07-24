@@ -84,13 +84,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewImage = document.getElementById('preview-image');
     const previewCategories = document.getElementById('preview-categories');
 
+    let easyMDE = null;
+    if (upDesc) {
+        easyMDE = new EasyMDE({
+            element: upDesc,
+            spellChecker: false,
+            placeholder: "Nhập mô tả chi tiết bằng Markdown...",
+            status: false
+        });
+    }
+
     // 1. Text input preview
     const updateTextPreview = () => {
         if (previewTitle) previewTitle.textContent = upTitle.value.trim() || 'Tên dự án sẽ hiện ở đây...';
-        if (previewDesc) previewDesc.textContent = upDesc.value.trim() || 'Mô tả dự án sẽ hiện ở đây...';
+        const descText = easyMDE ? easyMDE.value() : upDesc.value;
+        if (previewDesc) previewDesc.textContent = descText.trim() || 'Mô tả dự án sẽ hiện ở đây...';
     };
     if (upTitle) upTitle.addEventListener('input', updateTextPreview);
-    if (upDesc) upDesc.addEventListener('input', updateTextPreview);
+    if (easyMDE) {
+        easyMDE.codemirror.on("change", updateTextPreview);
+    } else if (upDesc) {
+        upDesc.addEventListener('input', updateTextPreview);
+    }
 
     // 2. Thumbnail preview using FileReader
     if (thumbInput) {
