@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Xếp Hạng - BonfireCode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0d1117; color: #e5e5e5; }
+        .fire-text { background: linear-gradient(180deg, #c084fc 0%, #9333ea 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .gh-border { border-color: #30363d; }
+        .gh-bg-secondary { background-color: #161b22; }
+        .gh-hover:hover { background-color: #30363d; }
+        
+        /* Rank Styles */
+        .rank-1 { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .rank-2 { color: #c0c0c0; text-shadow: 0 0 10px rgba(192, 192, 192, 0.5); }
+        .rank-3 { color: #cd7f32; text-shadow: 0 0 10px rgba(205, 127, 50, 0.5); }
+    </style>
+    <link rel="icon" type="image/jpeg" href="assets/images/1.jpg">
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-[#010409] border-b gh-border sticky top-0 z-50">
+        <div class="flex justify-between items-center px-6 py-3">
+            <div class="flex items-center gap-6">
+                <a href="dashboard.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <img src="assets/images/1.jpg" alt="Logo" class="w-8 h-8 rounded-full object-cover border border-gray-600">
+                    <span class="logo-text text-xl font-semibold text-gray-100 tracking-wider">BonfireCode</span>
+                </a>
+                <a href="leaderboard.html" class="hidden md:flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition">
+                    <i class="fa-solid fa-trophy text-yellow-500"></i> Bảng Xếp Hạng
+                </a>
+            </div>
+            <div class="flex items-center gap-4" id="auth-buttons">
+                <a href="auth.html" class="text-sm font-medium text-gray-300 hover:text-white transition duration-300">Đăng nhập</a>
+                <a href="auth.html" class="border border-gray-600 hover:border-gray-400 text-gray-300 hover:text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">Đăng ký</a>
+            </div>
+            <div class="flex items-center gap-4 hidden" id="user-buttons">
+                <a href="upload.html" class="flex items-center gap-1 bg-purple-600 hover:bg-purple-500 text-white px-3 py-1 rounded-md text-sm font-medium transition duration-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    Upload
+                </a>
+                <div class="relative">
+                    <button id="btn-avatar-dropdown" class="flex items-center justify-center rounded-full border border-gray-700 hover:border-gray-400 transition focus:outline-none">
+                        <img id="nav-avatar" src="https://placehold.co/100x100/161b22/8b949e?text=U" alt="User" class="w-8 h-8 rounded-full object-cover">
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-[#161b22] border border-[#30363d] rounded-md shadow-[0_8px_24px_rgba(0,0,0,0.5)] py-1 z-50 text-sm">
+                        <div class="px-4 py-2 border-b border-[#30363d]">
+                            <p class="font-semibold text-gray-200 truncate" id="dropdown-username">User</p>
+                        </div>
+                        <div class="py-1">
+                            <a href="profile.html" class="flex items-center px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Hồ sơ của tôi</a>
+                        </div>
+                        <div class="py-1 border-t border-[#30363d]">
+                            <button id="btn-logout" class="w-full text-left flex items-center px-4 py-1.5 text-gray-300 hover:bg-[#0366d6] hover:text-white transition">Đăng xuất</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold mb-3"><i class="fa-solid fa-fire-flame-curved fire-text mr-2"></i> Bảng Phong Thần</h1>
+            <p class="text-gray-400 text-lg">Vinh danh những Kẻ Khống Lửa có cống hiến lớn nhất cho cộng đồng BonfireCode.</p>
+        </div>
+
+        <div class="gh-bg-secondary rounded-lg border gh-border overflow-hidden shadow-lg">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-[#0d1117] border-b gh-border text-gray-400 text-sm">
+                        <th class="py-3 px-6 font-semibold w-16 text-center">Hạng</th>
+                        <th class="py-3 px-6 font-semibold">Hiệp Khách</th>
+                        <th class="py-3 px-6 font-semibold text-center">Cảnh Giới</th>
+                        <th class="py-3 px-6 font-semibold text-right">Điểm Cống Hiến</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <!-- Loading state -->
+                    <tr>
+                        <td colspan="4" class="py-8 text-center text-gray-400">
+                            <i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang triệu hồi dữ liệu...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="border-t gh-border mt-auto py-6 text-center text-sm text-gray-500">
+        <p>&copy; 2026 BonfireCode. Bảng Xếp Hạng Kẻ Khống Lửa.</p>
+    </footer>
+
+    <script src="leaderboard.js"></script>
+</body>
+</html>

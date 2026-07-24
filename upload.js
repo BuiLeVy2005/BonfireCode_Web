@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const title = document.getElementById('up-title').value;
-        const desc = document.getElementById('up-desc').value;
+        const desc = easyMDE ? easyMDE.value() : document.getElementById('up-desc').value;
         
         // Lấy tất cả CategoryIds đã chọn
         const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked'))

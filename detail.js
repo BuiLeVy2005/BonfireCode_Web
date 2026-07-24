@@ -134,7 +134,20 @@ async function loadProjectDetail(id) {
         if (dtContributorName) dtContributorName.innerHTML = p.authorName + (p.authorName === 'LordAdmin' ? ' <i class="fa-solid fa-crown text-fire ml-1 text-xs" title="Admin"></i>' : '');
 
         document.getElementById('dt-date').textContent = new Date(p.createdAt).toLocaleDateString('vi-VN');
-        document.getElementById('dt-desc').textContent = p.description || 'Không có mô tả.';
+        const descEl = document.getElementById('dt-desc');
+        if (p.description) {
+            marked.setOptions({
+                highlight: function (code, lang) {
+                    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                    return hljs.highlight(code, { language }).value;
+                },
+                langPrefix: 'hljs language-',
+                breaks: true
+            });
+            descEl.innerHTML = marked.parse(p.description);
+        } else {
+            descEl.textContent = 'Không có mô tả.';
+        }
         
         const imgUrl = p.thumbnailUrl ? (p.thumbnailUrl.startsWith('http') ? p.thumbnailUrl : `${getFullImageUrl(p.thumbnailUrl)}`) : 'https://placehold.co/1200x600/222/ea580c?text=No+Image';
         document.getElementById('dt-image').src = imgUrl;

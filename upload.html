@@ -12,15 +12,41 @@
         .fire-text { background: linear-gradient(180deg, #c084fc 0%, #9333ea 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
     <link rel="icon" type="image/jpeg" href="assets/images/1.jpg">
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+    <style>
+        /* Tối ưu EasyMDE cho Dark Mode */
+        .editor-toolbar, .editor-toolbar i.fa, .editor-toolbar button {
+            color: #c9d1d9 !important;
+            border-color: #30363d !important;
+        }
+        .editor-toolbar button.active, .editor-toolbar button:hover {
+            background: #30363d !important;
+            border-color: #30363d !important;
+        }
+        .CodeMirror {
+            background-color: #0d1117 !important;
+            color: #c9d1d9 !important;
+            border-color: #30363d !important;
+        }
+        .CodeMirror-cursor { border-left-color: #c9d1d9 !important; }
+        .editor-preview {
+            background-color: #0d1117 !important;
+            color: #c9d1d9 !important;
+        }
+    </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="min-h-screen flex flex-col">
         <!-- Header -->
     <header class="bg-[#010409] border-b border-[#30363d] sticky top-0 z-50">
         <div class="flex justify-between items-center px-6 py-3">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-6">
                 <a href="dashboard.html" class="flex items-center gap-3 hover:opacity-80 transition">
                     <img src="assets/images/1.jpg" alt="Logo" class="w-8 h-8 rounded-full object-cover border border-gray-600">
                     <span class="logo-text text-xl font-semibold text-gray-100 tracking-wider">BonfireCode</span>
+                </a>
+                <a href="leaderboard.html" class="hidden md:flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition">
+                    <i class="fa-solid fa-trophy text-yellow-500"></i> Bảng Xếp Hạng
                 </a>
             </div>
             <div class="flex items-center gap-4" id="auth-buttons">
@@ -234,6 +260,7 @@
         <p>&copy; 2026 BonfireCode. Dự án Niên Luận - Võ Chí Hải.</p>
     </footer>
 
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
     <script src="upload.js"></script>
 </body>
 </html>
