@@ -60,6 +60,35 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                     Upload
                 </a>
+                
+                <!-- Notification Bell -->
+                <div class="relative">
+                    <button id="btn-notification" class="relative p-2 text-gray-400 hover:text-white transition focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <!-- Red Dot for unread (hidden by default) -->
+                        <span id="notification-badge" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-[#0d1117]"></span>
+                    </button>
+
+                    <!-- Notifications Dropdown -->
+                    <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-[#161b22] border border-[#30363d] rounded-md shadow-[0_8px_24px_rgba(0,0,0,0.5)] z-50 text-sm overflow-hidden flex flex-col max-h-96">
+                        <div class="px-4 py-3 border-b border-[#30363d] flex justify-between items-center bg-[#0d1117]">
+                            <h3 class="font-semibold text-gray-200">Thông báo</h3>
+                            <button id="btn-read-all-notifs" class="text-xs text-blue-400 hover:text-blue-300 transition">Đánh dấu đã đọc</button>
+                        </div>
+                        
+                        <div id="notification-list" class="flex-1 overflow-y-auto">
+                            <!-- Items go here -->
+                            <div class="p-4 text-center text-gray-500 text-xs">Đang tải thông báo...</div>
+                        </div>
+                        
+                        <div class="px-4 py-2 border-t border-[#30363d] text-center bg-[#0d1117]">
+                            <a href="#" class="text-xs text-blue-400 hover:text-blue-300">Xem tất cả</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Avatar Dropdown -->
                 <div class="relative">
                     <button id="btn-avatar-dropdown" class="flex items-center justify-center rounded-full border border-gray-700 hover:border-gray-400 transition focus:outline-none">
                         <img src="https://placehold.co/100x100/161b22/8b949e?text=U" alt="User" class="w-8 h-8 rounded-full">
@@ -262,6 +291,7 @@
 
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
     <script src="upload.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
 

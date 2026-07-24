@@ -185,7 +185,11 @@ function applyFilters() {
     let filtered = allProjectsList;
 
     if (currentSearchQuery) {
-        filtered = filtered.filter(p => p.title.toLowerCase().includes(currentSearchQuery));
+        filtered = filtered.filter(p => 
+            (p.title && p.title.toLowerCase().includes(currentSearchQuery)) ||
+            (p.description && p.description.toLowerCase().includes(currentSearchQuery)) ||
+            (p.authorName && p.authorName.toLowerCase().includes(currentSearchQuery))
+        );
     }
 
     if (currentLangFilter) {
