@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnReadAll = document.getElementById('btn-read-all-notifs');
 
     const API_BASE_URL = 'https://bonfirecode-api.onrender.com/api'; // Or your local if testing
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('bonfire_token');
 
     // Toggle Dropdown
     if (btnNotification) {
