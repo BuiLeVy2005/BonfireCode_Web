@@ -16,13 +16,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dropdownUsername = document.getElementById('dropdown-username');
     const btnLogout = document.getElementById('btn-logout');
 
-    const token = localStorage.getItem('token');
-    const currentUser = localStorage.getItem('username');
-
-    if (token && currentUser) {
+    const token = localStorage.getItem('bonfire_token');
+    if (token) {
         if(authButtons) authButtons.classList.add('hidden');
         if(userButtons) userButtons.classList.remove('hidden');
-        if(dropdownUsername) dropdownUsername.textContent = currentUser;
         
         // Setup dropdown
         if (btnAvatarDropdown && userDropdownMenu) {
@@ -37,9 +34,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
         
+        // Decode token to get username
+        try {
+            const payload = JSON.parse(decodeURIComponent(escape(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')))));
+            const username = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || payload.unique_name || payload.sub || 'Kẻ Khống Lửa';
+            if(dropdownUsername) dropdownUsername.textContent = username;
+        } catch(e) { console.error('Failed to parse token', e); }
+        
         // Fetch current user avatar
         try {
-            const res = await fetch(`${API_BASE_URL}/users/${currentUser}/profile`);
+            const res = await fetch(\\/Auth/me\, {
+                headers: { 'Authorization': \Bearer \\ }
+            });
             if (res.ok) {
                 const data = await res.json();
                 if (data.avatarUrl && navAvatar) {
@@ -52,11 +58,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if(btnLogout) {
             btnLogout.addEventListener('click', () => {
-                localStorage.removeItem('token');
-                localStorage.removeItem('username');
+                localStorage.removeItem('bonfire_token');
                 window.location.reload();
             });
         }
+    } else {
+        if(authButtons) authButtons.classList.remove('hidden');
+        if(userButtons) userButtons.classList.add('hidden');
     }
 
     // Load Leaderboard
