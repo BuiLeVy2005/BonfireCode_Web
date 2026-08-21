@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // Fetch current user avatar
         try {
-            const res = await fetch(\\/Auth/me\, {
-                headers: { 'Authorization': \Bearer \\ }
+            const res = await fetch(`${API_BASE_URL}/Auth/me`, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
                 const data = await res.json();
