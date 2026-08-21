@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userButtons = document.getElementById('user-buttons');
     const btnAvatarDropdown = document.getElementById('btn-avatar-dropdown');
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
-    const navAvatar = document.getElementById('nav-avatar');
+    const navAvatar = document.querySelector('#btn-avatar-dropdown img');
     const dropdownUsername = document.getElementById('dropdown-username');
     const btnLogout = document.getElementById('btn-logout');
 
