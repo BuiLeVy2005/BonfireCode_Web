@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bảng Xếp Hạng - BonfireCode</title>
+    <title>Thông Báo - BonfireCode</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -95,31 +95,20 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
-        <div class="text-center mb-10">
-            <h1 class="text-4xl font-bold mb-3"><i class="fa-solid fa-fire-flame-curved fire-text mr-2"></i> Bảng Phong Thần</h1>
-            <p class="text-gray-400 text-lg">Vinh danh những Kẻ Khống Lửa có cống hiến lớn nhất cho cộng đồng BonfireCode.</p>
+        <main class="flex-1 max-w-4xl mx-auto w-full p-6 mt-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold fire-text"><i class="fa-solid fa-bell mr-3"></i>Tất Cả Thông Báo</h1>
+            <button id="btn-read-all-page" class="bg-[#21262d] hover:bg-[#30363d] text-gray-300 px-4 py-2 rounded-md border border-[#30363d] transition text-sm font-medium">
+                <i class="fa-solid fa-check-double mr-2"></i>Đánh dấu tất cả đã đọc
+            </button>
         </div>
-
-        <div class="gh-bg-secondary rounded-lg border gh-border overflow-hidden shadow-lg">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-[#0d1117] border-b gh-border text-gray-400 text-sm">
-                        <th class="py-3 px-6 font-semibold w-16 text-center">Hạng</th>
-                        <th class="py-3 px-6 font-semibold">Hiệp Khách</th>
-                        <th class="py-3 px-6 font-semibold text-center">Cảnh Giới</th>
-                        <th class="py-3 px-6 font-semibold text-right">Điểm Cống Hiến</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard-body">
-                    <!-- Loading state -->
-                    <tr>
-                        <td colspan="4" class="py-8 text-center text-gray-400">
-                            <i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang triệu hồi dữ liệu...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        
+        <div class="bg-[#0d1117] border gh-border rounded-xl shadow-lg overflow-hidden">
+            <div id="full-notification-list" class="flex flex-col min-h-[300px]">
+                <div class="flex items-center justify-center h-40 text-gray-500">
+                    <i class="fa-solid fa-spinner fa-spin mr-2"></i> Đang tải thông báo...
+                </div>
+            </div>
         </div>
     </main>
 
@@ -127,7 +116,7 @@
         <p>&copy; 2026 BonfireCode. Bảng Xếp Hạng Kẻ Khống Lửa.</p>
     </footer>
 
-    <script src="leaderboard.js"></script>
+    <script src="notifications.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
