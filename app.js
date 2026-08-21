@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok) {
                 const notifications = await res.json();
                 renderNotifications(notifications);
+            } else {
+                notifList.innerHTML = `<div class="p-4 text-center text-gray-500 text-xs">Chưa có thông báo nào (hoặc phiên đăng nhập hết hạn)</div>`;
             }
         } catch (err) {
             console.error("Error fetching notifications", err);
